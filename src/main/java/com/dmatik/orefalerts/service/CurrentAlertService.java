@@ -4,10 +4,7 @@ import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,19 +18,18 @@ public class CurrentAlertService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private String URL = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+    final String URL = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
 
     public CurrentAlertResponse getCurrentAlert() {
 
         log.info("Executing Current Alert Service");
         CurrentAlertResponse response = new CurrentAlertResponse();
 
-        URI url = null;
+        URI url;
         try {
             url = new URI(URL);
         } catch (URISyntaxException e) {
-            log.info("Wrong URL string");
-            log.debug(e.getStackTrace().toString());
+            log.error("Wrong URL string", e);
             return response;
         }
 
@@ -44,19 +40,16 @@ public class CurrentAlertService {
         headers.set("X-Requested-With", "XMLHttpRequest");
         HttpEntity entity = new HttpEntity(headers);
 
+        // Set custom error handler
+        restTemplate.setErrorHandler(new ServiceErrorHandler());
+
         // Pikud HaOref call
-        ResponseEntity<CurrentAlert> orefResponse = null;
-        try {
-            orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
-        } catch (Exception e) {
-            log.info("Unable to call " + URL + " service.");
-            log.debug(e.getStackTrace().toString());
-            return response;
-        }
+        ResponseEntity<CurrentAlert> orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
+
         CurrentAlert current = orefResponse.getBody();
 
         // Setting empty alert object in case of empty response.
-        if(null != current) {
+        if (null != current) {
             response.setAlert(true);
             response.setCurrent(current);
         } else {

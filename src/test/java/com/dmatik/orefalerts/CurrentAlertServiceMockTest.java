@@ -87,7 +87,7 @@ public class CurrentAlertServiceMockTest {
     }
 
     @Test
-    public void currentAlert_emptyResponse() throws URISyntaxException, IOException {
+    public void currentAlert_emptyResponse() throws URISyntaxException {
 
         // External REST URL to be mocked
         String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
@@ -101,15 +101,12 @@ public class CurrentAlertServiceMockTest {
         currExpected.setData(null);
         currResponseExpected.setCurrent(currExpected);
 
-        // Empty string
-        String currMock = new String();
-
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(currMock)
+                        .body("")
                 );
 
         // Executing and asserting
