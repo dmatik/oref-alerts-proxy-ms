@@ -15,6 +15,9 @@
 	<description>oref-alerts-service</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.projectKey>dmatik_oref-alerts-proxy-ms</sonar.projectKey>
+		<sonar.organization>dmatik</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<dependencies>
 		<dependency>
