@@ -1,7 +1,8 @@
 # oref-alerts-proxy-ms
 
 [![build]][3] [![maintenance]][2] [![last-commit]][2] <br>    
-[![docker-version]][1] [![docker-pulls]][1] [![image-size]][1]
+[![docker-version]][1] [![docker-pulls]][1] [![image-size]][1] <br>
+[![quality-gate]][4]
 
 Java Spring Boot MS to retrieve Israeli [Pikud Ha-Oref](https://www.oref.org.il/) so called "Red Color" alerts. <br/>
 The project deployed on Docker Hub as [dmatik/oref-alerts](https://hub.docker.com/r/dmatik/oref-alerts).
@@ -123,6 +124,7 @@ binary_sensor:
 [1]: https://hub.docker.com/r/dmatik/oref-alerts
 [2]: https://github.com/dmatik/oref-alerts-proxy-ms
 [3]: https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml
+[4]: https://sonarcloud.io/dashboard/index/com.github.noraui:noraui
 <!-- Badges Links -->
 [maintenance]: https://img.shields.io/maintenance/yes/2021
 [last-commit]: https://img.shields.io/github/last-commit/dmatik/oref-alerts-proxy-ms
@@ -130,3 +132,4 @@ binary_sensor:
 [docker-version]: https://img.shields.io/docker/v/dmatik/oref-alerts?logo=docker
 [image-size]: https://img.shields.io/docker/image-size/dmatik/oref-alerts/latest?logo=docker
 [build]: https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml/badge.svg
+[quality-gate]: https://sonarcloud.io/dashboard?id=dmatik_oref-alerts-proxy-ms
