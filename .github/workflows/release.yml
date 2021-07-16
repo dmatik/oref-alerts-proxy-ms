@@ -69,10 +69,12 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: Maven Package
         run: mvn -B clean package -DskipTests
 
