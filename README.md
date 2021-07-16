@@ -124,7 +124,7 @@ binary_sensor:
 [1]: https://hub.docker.com/r/dmatik/oref-alerts
 [2]: https://github.com/dmatik/oref-alerts-proxy-ms
 [3]: https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml
-[4]: https://sonarcloud.io/dashboard/index/com.github.noraui:noraui
+[4]: https://sonarcloud.io/dashboard?id=dmatik_oref-alerts-proxy-ms
 <!-- Badges Links -->
 [maintenance]: https://img.shields.io/maintenance/yes/2021
 [last-commit]: https://img.shields.io/github/last-commit/dmatik/oref-alerts-proxy-ms
@@ -132,4 +132,4 @@ binary_sensor:
 [docker-version]: https://img.shields.io/docker/v/dmatik/oref-alerts?logo=docker
 [image-size]: https://img.shields.io/docker/image-size/dmatik/oref-alerts/latest?logo=docker
 [build]: https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml/badge.svg
-[quality-gate]: https://sonarcloud.io/dashboard?id=dmatik_oref-alerts-proxy-ms
+[quality-gate]: https://sonarcloud.io/api/badges/gate?key=dmatik_oref-alerts-proxy-ms
