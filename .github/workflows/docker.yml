@@ -5,9 +5,37 @@ on:
 
 jobs:
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Maven Package
+        run: mvn -B clean package -DskipTests
+      - name: Maven Verify
+        run: mvn -B clean verify -DskipTests
+
+  test:
+    name: Unit-Test
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Maven Package
+        run: mvn -B clean test
+
   docker:
     runs-on: ubuntu-latest
     name: Publish to Docker
+    [build, test]
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
