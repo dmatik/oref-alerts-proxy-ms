@@ -52,9 +52,11 @@ public class HistoryService {
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
         } catch (Exception e) {
-            log.error("Generic error");
-            log.debug(String.valueOf(e.getStackTrace()));
+            log.error("Calling external service error");
+            //log.debug(String.valueOf(e.getStackTrace()));
         }
+
+        response.setHistory(new HistoryItem[0]);
 
         if (null != orefResponse) {
 

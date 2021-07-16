@@ -49,8 +49,8 @@ public class CurrentAlertService {
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
         } catch (Exception e) {
-            log.error("Generic error");
-            log.debug(String.valueOf(e.getStackTrace()));
+            log.error("Calling external service error");
+            //log.debug(String.valueOf(e.getStackTrace()));
         }
 
         // Empty alert object
