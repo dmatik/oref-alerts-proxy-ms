@@ -1,6 +1,8 @@
 name: Release
 
 on:
+  release:
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
@@ -107,6 +109,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
             dmatik/oref-alerts:${{ steps.getSemver.outputs.semver }}
+            dmatik/oref-alerts:latest
           build-args: |
             VCS_REF=${{ github.sha }}
             BUILD_DATE=${{ steps.getDate.outputs.date }}
