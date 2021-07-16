@@ -26,7 +26,7 @@ services:
         hostname: oref-alerts
         network_mode: "bridge"
         ports:
-          - 49000:3000
+          - 49000:9001
         restart: unless-stopped
 ```
 
