@@ -29,7 +29,8 @@ public class CurrentAlertService {
         try {
             url = new URI(URL);
         } catch (URISyntaxException e) {
-            log.error("Wrong URL string", e);
+            log.error("Wrong URL string");
+            log.debug(String.valueOf(e.getStackTrace()));
             return response;
         }
 
@@ -44,22 +45,30 @@ public class CurrentAlertService {
         restTemplate.setErrorHandler(new ServiceErrorHandler());
 
         // Pikud HaOref call
-        ResponseEntity<CurrentAlert> orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
+        ResponseEntity<CurrentAlert> orefResponse = null;
+        try {
+            orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
+        } catch (Exception e) {
+            log.error("Generic error");
+            log.debug(String.valueOf(e.getStackTrace()));
+        }
 
-        CurrentAlert current = orefResponse.getBody();
+        // Empty alert object
+        CurrentAlert emptyAlert = new CurrentAlert();
+        emptyAlert.setId(null);
+        emptyAlert.setTitle("");
+        emptyAlert.setData(null);
+        response.setAlert(false);
+        response.setCurrent(emptyAlert);
 
-        // Setting empty alert object in case of empty response.
-        if (null != current) {
-            response.setAlert(true);
-            response.setCurrent(current);
-        } else {
-            // Empty alert object
-            CurrentAlert emptyAlert = new CurrentAlert();
-            emptyAlert.setId(null);
-            emptyAlert.setTitle("");
-            emptyAlert.setData(null);
-            response.setAlert(false);
-            response.setCurrent(emptyAlert);
+        if (null != orefResponse) {
+
+            CurrentAlert current = orefResponse.getBody();
+
+            if (null != current) {
+                response.setAlert(true);
+                response.setCurrent(current);
+            }
         }
 
         return response;

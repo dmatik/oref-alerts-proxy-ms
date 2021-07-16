@@ -32,7 +32,8 @@ public class HistoryService {
         try {
             url = new URI(URL);
         } catch (URISyntaxException e) {
-            log.error("Wrong URL string", e);
+            log.error("Wrong URL string");
+            log.debug(String.valueOf(e.getStackTrace()));
             return response;
         }
 
@@ -47,11 +48,19 @@ public class HistoryService {
         restTemplate.setErrorHandler(new ServiceErrorHandler());
 
         // Pikud HaOref call
-        ResponseEntity<HistoryItem[]> orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
+        ResponseEntity<HistoryItem[]> orefResponse = null;
+        try {
+            orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
+        } catch (Exception e) {
+            log.error("Generic error");
+            log.debug(String.valueOf(e.getStackTrace()));
+        }
 
-        HistoryItem[] history = orefResponse.getBody();
+        if (null != orefResponse) {
 
-        response.setHistory(history);
+            HistoryItem[] history = orefResponse.getBody();
+            response.setHistory(history);
+        }
 
         return response;
     }
