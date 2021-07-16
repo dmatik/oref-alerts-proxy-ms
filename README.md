@@ -13,7 +13,7 @@ The project deployed on Docker Hub as [dmatik/oref-alerts](https://hub.docker.co
 ### Run from hub
 #### docker run from hub
 ```text
-docker run -d -p 49000:3000 --name oref-alerts dmatik/oref-alerts:latest
+docker run -d -p 49000:9001 --name oref-alerts dmatik/oref-alerts:latest
 ```
 
 #### docker-compose from hub
