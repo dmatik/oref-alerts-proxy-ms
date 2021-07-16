@@ -35,7 +35,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     name: Publish to Docker
-    [build, test]
+    needs: [build, test]
     steps:
       - name: checkout repo
         uses: actions/checkout@v2
