@@ -129,4 +129,4 @@ binary_sensor:
 [docker-pulls]: https://img.shields.io/docker/pulls/dmatik/oref-alerts?logo=docker
 [docker-version]: https://img.shields.io/docker/v/dmatik/oref-alerts?logo=docker
 [image-size]: https://img.shields.io/docker/image-size/dmatik/oref-alerts/latest?logo=docker
-[build]: [Build](https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml/badge.svg)
+[build]: https://github.com/dmatik/oref-alerts-proxy-ms/actions/workflows/build.yml/badge.svg
