@@ -1,5 +1,6 @@
 package com.dmatik.orefalerts;
 
+import com.dmatik.orefalerts.controller.OrefAlertsController;
 import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import com.dmatik.orefalerts.service.OrefAlertsService;
@@ -9,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +38,9 @@ public class CurrentAlertTest {
 
     @Autowired
     private OrefAlertsService orefAlertsService;
+
+    @Autowired
+    private OrefAlertsController orefAlertsController;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -147,4 +150,36 @@ public class CurrentAlertTest {
         Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
+    @Test
+    public void currentAlert_controllerSuccessfulFlow() throws URISyntaxException, IOException {
+
+        // External REST URL to be mocked
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String mockPath = "src/test/mocks/alerts.json";
+
+        // Create expected object
+        ArrayList<String> data = new ArrayList<>();
+        data.add("סעד");
+        data.add("אשדוד - יא,יב,טו,יז,מרינה");
+        CurrentAlertResponse currResponseExpected =
+                new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
+
+
+        // Read Mock from file
+        Path path = ResourceUtils.getFile(mockPath).toPath();
+        String currMock = new String( Files.readAllBytes(path) );
+
+        mockServer.expect(ExpectedCount.once(),
+                requestTo(new URI(url)))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.OK)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(currMock)
+                );
+
+        // Executing and asserting
+        CurrentAlertResponse currentAlertResponse = orefAlertsController.getCurrentAlert();
+        mockServer.verify();
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+    }
 }
