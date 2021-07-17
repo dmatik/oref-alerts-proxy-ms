@@ -33,15 +33,9 @@ public class OrefAlertsService {
     public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
 
         log.info("executing Current Alert Service");
-        CurrentAlertResponse response = new CurrentAlertResponse();
 
-        // Empty alert object
-        CurrentAlert emptyAlert = new CurrentAlert();
-        emptyAlert.setId(null);
-        emptyAlert.setTitle("");
-        emptyAlert.setData(null);
-        response.setAlert(false);
-        response.setCurrent(emptyAlert);
+        CurrentAlertResponse response =
+                new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
         URI url = new URI(URL_CURRENT_ALERT);
 
@@ -104,8 +98,7 @@ public class OrefAlertsService {
             return response;
         }
 
-        HistoryItem[] history = orefResponse.getBody();
-        response.setHistory(history);
+        response.setHistory( orefResponse.getBody() );
 
         log.info("History Service finished");
         return response;

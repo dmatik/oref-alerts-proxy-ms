@@ -2,8 +2,6 @@ package com.dmatik.orefalerts;
 
 import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
-import com.dmatik.orefalerts.entity.HistoryItem;
-import com.dmatik.orefalerts.entity.HistoryResponse;
 import com.dmatik.orefalerts.service.OrefAlertsService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = SpringTestConfig.class)
-public class HistoryServiceMockTest {
+public class CurrentAlertTest {
 
     @Autowired
     private OrefAlertsService orefAlertsService;
@@ -50,56 +50,48 @@ public class HistoryServiceMockTest {
         mockServer = MockRestServiceServer.createServer(restTemplate);
     }
 
+
     @Test
-    public void history_successfulFlow() throws URISyntaxException, IOException {
+    public void currentAlert_successfulFlow() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
-        String mockPath = "src/test/mocks/history.json";
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String mockPath = "src/test/mocks/alerts.json";
 
         // Create expected object
-        HistoryResponse historyResponseExpected = new HistoryResponse();
-        HistoryItem item01 = new HistoryItem();
-        item01.setData("בטחה");
-        item01.setDate("17.05.2021");
-        item01.setTime("13:31");
-        item01.setDatetime("2021-05-17T13:32:00");
-        HistoryItem item02 = new HistoryItem();
-        item02.setData("גילת");
-        item02.setDate("17.05.2021");
-        item02.setTime("13:31");
-        item02.setDatetime("2021-05-17T13:32:00");
-        HistoryItem[] history = new HistoryItem[2];
-        history[0] = item01;
-        history[1] = item02;
-        historyResponseExpected.setHistory(history);
+        ArrayList<String> data = new ArrayList<>();
+        data.add("סעד");
+        data.add("אשדוד - יא,יב,טו,יז,מרינה");
+        CurrentAlertResponse currResponseExpected =
+                new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
+
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
-        String historyMock = new String( Files.readAllBytes(path) );
+        String currMock = new String( Files.readAllBytes(path) );
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(historyMock)
+                        .body(currMock)
                 );
 
         // Executing and asserting
-        HistoryResponse historyResponse = orefAlertsService.getHistory();
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
-    public void history_emptyResponse() throws URISyntaxException {
+    public void currentAlert_emptyResponse() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
 
         // Create expected object
-        HistoryResponse historyResponseExpected = new HistoryResponse();
+        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
@@ -110,19 +102,19 @@ public class HistoryServiceMockTest {
                 );
 
         // Executing and asserting
-        HistoryResponse historyResponse = orefAlertsService.getHistory();
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
-    public void  history_httpNotFound() throws URISyntaxException {
+    public void  currentAlert_httpNotFound() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
 
         // Create expected object
-        HistoryResponse historyResponseExpected = new HistoryResponse();
+        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
@@ -130,19 +122,19 @@ public class HistoryServiceMockTest {
                 .andRespond(withStatus(HttpStatus.NOT_FOUND));
 
         // Executing and asserting
-        HistoryResponse historyResponse = orefAlertsService.getHistory();
-        mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
+        this.mockServer.verify();
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
-    public void  history_httpServerError() throws URISyntaxException {
+    public void  currentAlert_httpServerError() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
 
         // Create expected object
-        HistoryResponse historyResponseExpected = new HistoryResponse();
+        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
@@ -150,8 +142,9 @@ public class HistoryServiceMockTest {
                 .andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
 
         // Executing and asserting
-        HistoryResponse historyResponse = orefAlertsService.getHistory();
-        mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
+        this.mockServer.verify();
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
+
 }
