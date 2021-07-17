@@ -32,8 +32,6 @@ public class OrefAlertsService {
 
     public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
 
-        log.info("executing Current Alert Service");
-
         CurrentAlertResponse response =
                 new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
@@ -65,13 +63,11 @@ public class OrefAlertsService {
             response.setCurrent(current);
         }
 
-        log.info("Current Alert Service finished");
         return response;
     }
 
     public HistoryResponse getHistory() throws URISyntaxException {
 
-        log.info("Executing History Service");
         HistoryResponse response = new HistoryResponse();
 
         // Empty history object
@@ -100,7 +96,6 @@ public class OrefAlertsService {
 
         response.setHistory( orefResponse.getBody() );
 
-        log.info("History Service finished");
         return response;
     }
 }
