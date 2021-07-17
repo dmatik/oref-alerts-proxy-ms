@@ -72,9 +72,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<jvmArguments>
-						-Dcom.sun.jndi.ldap.object.disableEndpointIdentification=true
-					</jvmArguments>
 				</configuration>
 			</plugin>
 			<plugin>
