@@ -2,7 +2,8 @@ FROM openjdk:11.0.1-jdk-slim-sid
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
-ENV LOG_LEVEL=INFO
+
+ENV LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB="$LOG_LEVEL"
 
 ARG BUILD_DATE
 ARG VCS_REF
