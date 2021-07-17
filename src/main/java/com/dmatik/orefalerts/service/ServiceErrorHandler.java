@@ -24,22 +24,22 @@ public class ServiceErrorHandler implements ResponseErrorHandler {
             // handle 5xx errors
             // raw http status code e.g `500`
             log.error("Server error");
-            log.debug(String.valueOf(response.getRawStatusCode()));
+            log.error(String.valueOf(response.getRawStatusCode()));
 
             // http status code e.g. `500 INTERNAL_SERVER_ERROR`
-            log.debug(String.valueOf(response.getStatusCode()));
+            log.error(String.valueOf(response.getStatusCode()));
 
         } else if (response.getStatusCode().series() == HttpStatus.Series.CLIENT_ERROR) {
             // handle 4xx errors
             // raw http status code e.g `404`
             log.error("Client error");
-            log.debug(String.valueOf(response.getRawStatusCode()));
+            log.error(String.valueOf(response.getRawStatusCode()));
 
             // http status code e.g. `404 NOT_FOUND`
-            log.debug(String.valueOf(response.getStatusCode()));
+            log.error(String.valueOf(response.getStatusCode()));
 
             // get response body
-            log.debug(String.valueOf(response.getBody()));
+            log.error(String.valueOf(response.getBody()));
 
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
                 log.error("HTTP not found");
