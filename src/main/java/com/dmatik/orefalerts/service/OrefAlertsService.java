@@ -20,15 +20,15 @@ public class OrefAlertsService {
     @Autowired
     private RestTemplate restTemplate;
 
-    final static String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
-    final static String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+    static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+    static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
 
-    final static String HEADER_USER_AGENT_KEY = "User-Agent";
-    final static String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
-    final static String HEADER_REFERER_KEY = "Referer";
-    final static String HEADER_REFERER_VALUE = "https://www.oref.org.il//12481-he/Pakar.aspx";
-    final static String HEADER_X_REQUESTED_WITH_KEY = "X-Requested-With";
-    final static String HEADER_X_REQUESTED_WITH_VALUE = "XMLHttpRequest";
+    static final String HEADER_USER_AGENT_KEY = "User-Agent";
+    static final String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
+    static final String HEADER_REFERER_KEY = "Referer";
+    static final String HEADER_REFERER_VALUE = "https://www.oref.org.il//12481-he/Pakar.aspx";
+    static final String HEADER_X_REQUESTED_WITH_KEY = "X-Requested-With";
+    static final String HEADER_X_REQUESTED_WITH_VALUE = "XMLHttpRequest";
 
     public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
 
