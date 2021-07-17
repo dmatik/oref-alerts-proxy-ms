@@ -54,7 +54,8 @@ public class OrefAlertsService {
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
         } catch (Exception e) {
-            log.error("External service error");
+            log.error(e.getMessage());
+            log.debug(e.toString());
             return response;
         }
 
@@ -94,7 +95,8 @@ public class OrefAlertsService {
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
         } catch (Exception e) {
-            log.error("External service error");
+            log.error(e.getMessage());
+            log.debug(e.toString());
             return response;
         }
 
