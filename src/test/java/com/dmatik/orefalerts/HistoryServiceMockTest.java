@@ -1,5 +1,7 @@
 package com.dmatik.orefalerts;
 
+import com.dmatik.orefalerts.entity.CurrentAlert;
+import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import com.dmatik.orefalerts.entity.HistoryItem;
 import com.dmatik.orefalerts.entity.HistoryResponse;
 import com.dmatik.orefalerts.service.OrefAlertsService;
@@ -106,6 +108,46 @@ public class HistoryServiceMockTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body("")
                 );
+
+        // Executing and asserting
+        HistoryResponse historyResponse = orefAlertsService.getHistory();
+        mockServer.verify();
+        Assert.assertEquals(historyResponseExpected, historyResponse);
+    }
+
+    @Test
+    public void  history_httpNotFound() throws URISyntaxException {
+
+        // External REST URL to be mocked
+        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+
+        // Create expected object
+        HistoryResponse historyResponseExpected = new HistoryResponse();
+
+        this.mockServer
+                .expect(ExpectedCount.once(), requestTo(url))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.NOT_FOUND));
+
+        // Executing and asserting
+        HistoryResponse historyResponse = orefAlertsService.getHistory();
+        mockServer.verify();
+        Assert.assertEquals(historyResponseExpected, historyResponse);
+    }
+
+    @Test
+    public void  history_httpServerError() throws URISyntaxException {
+
+        // External REST URL to be mocked
+        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+
+        // Create expected object
+        HistoryResponse historyResponseExpected = new HistoryResponse();
+
+        this.mockServer
+                .expect(ExpectedCount.once(), requestTo(url))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
 
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsService.getHistory();

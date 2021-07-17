@@ -42,7 +42,7 @@ public class ServiceErrorHandler implements ResponseErrorHandler {
             log.debug(String.valueOf(response.getBody()));
 
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                log.error("Unknown error");
+                log.error("HTTP not found");
             }
         }
     }

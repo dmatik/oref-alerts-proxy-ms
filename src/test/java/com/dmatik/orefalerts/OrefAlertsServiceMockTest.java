@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -115,4 +116,57 @@ public class OrefAlertsServiceMockTest {
         mockServer.verify();
         Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
+
+    @Test
+    public void  currentAlert_httpNotFound() throws URISyntaxException {
+
+        // External REST URL to be mocked
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+
+        // Create expected object
+        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse();
+        currResponseExpected.setAlert(false);
+        CurrentAlert currExpected = new CurrentAlert();
+        currExpected.setId(null);
+        currExpected.setTitle("");
+        currExpected.setData(null);
+        currResponseExpected.setCurrent(currExpected);
+
+        this.mockServer
+                .expect(ExpectedCount.once(), requestTo(url))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.NOT_FOUND));
+
+        // Executing and asserting
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
+        this.mockServer.verify();
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+    }
+
+    @Test
+    public void  currentAlert_httpServerError() throws URISyntaxException {
+
+        // External REST URL to be mocked
+        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+
+        // Create expected object
+        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse();
+        currResponseExpected.setAlert(false);
+        CurrentAlert currExpected = new CurrentAlert();
+        currExpected.setId(null);
+        currExpected.setTitle("");
+        currExpected.setData(null);
+        currResponseExpected.setCurrent(currExpected);
+
+        this.mockServer
+                .expect(ExpectedCount.once(), requestTo(url))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withStatus(HttpStatus.INTERNAL_SERVER_ERROR));
+
+        // Executing and asserting
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
+        this.mockServer.verify();
+        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+    }
+
 }

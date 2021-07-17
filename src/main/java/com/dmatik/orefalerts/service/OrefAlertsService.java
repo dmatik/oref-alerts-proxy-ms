@@ -71,7 +71,7 @@ public class OrefAlertsService {
             response.setCurrent(current);
         }
 
-        log.info("Current Alert Service successful");
+        log.info("Current Alert Service finished");
         return response;
     }
 
@@ -107,7 +107,7 @@ public class OrefAlertsService {
         HistoryItem[] history = orefResponse.getBody();
         response.setHistory(history);
 
-        log.info("History Service successful");
+        log.info("History Service finished");
         return response;
     }
 }
