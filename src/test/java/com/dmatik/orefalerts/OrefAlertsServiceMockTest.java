@@ -2,7 +2,7 @@ package com.dmatik.orefalerts;
 
 import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
-import com.dmatik.orefalerts.service.CurrentAlertService;
+import com.dmatik.orefalerts.service.OrefAlertsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,10 +33,10 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = SpringTestConfig.class)
-public class CurrentAlertServiceMockTest {
+public class OrefAlertsServiceMockTest {
 
     @Autowired
-    private CurrentAlertService currentAlertService;
+    private OrefAlertsService orefAlertsService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -82,7 +82,7 @@ public class CurrentAlertServiceMockTest {
                 );
 
         // Executing and asserting
-        CurrentAlertResponse currentAlertResponse = currentAlertService.getCurrentAlert();
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
         Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }
@@ -111,7 +111,7 @@ public class CurrentAlertServiceMockTest {
                 );
 
         // Executing and asserting
-        CurrentAlertResponse currentAlertResponse = currentAlertService.getCurrentAlert();
+        CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
         Assert.assertEquals(currResponseExpected, currentAlertResponse);
     }

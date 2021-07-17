@@ -1,10 +1,8 @@
 package com.dmatik.orefalerts.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.ResponseErrorHandler;
 
 import java.io.IOException;
@@ -25,7 +23,6 @@ public class ServiceErrorHandler implements ResponseErrorHandler {
         if (response.getStatusCode().series() == HttpStatus.Series.SERVER_ERROR) {
             // handle 5xx errors
             // raw http status code e.g `500`
-            //System.out.println(response.getRawStatusCode());
             log.error("Server error");
             log.debug(String.valueOf(response.getRawStatusCode()));
 

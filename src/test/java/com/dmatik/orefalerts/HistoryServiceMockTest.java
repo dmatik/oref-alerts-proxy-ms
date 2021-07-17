@@ -2,7 +2,7 @@ package com.dmatik.orefalerts;
 
 import com.dmatik.orefalerts.entity.HistoryItem;
 import com.dmatik.orefalerts.entity.HistoryResponse;
-import com.dmatik.orefalerts.service.HistoryService;
+import com.dmatik.orefalerts.service.OrefAlertsService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 public class HistoryServiceMockTest {
 
     @Autowired
-    private HistoryService historyService;
+    private OrefAlertsService orefAlertsService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -85,7 +85,7 @@ public class HistoryServiceMockTest {
                 );
 
         // Executing and asserting
-        HistoryResponse historyResponse = historyService.getHistory();
+        HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
         Assert.assertEquals(historyResponseExpected, historyResponse);
     }
@@ -108,7 +108,7 @@ public class HistoryServiceMockTest {
                 );
 
         // Executing and asserting
-        HistoryResponse historyResponse = historyService.getHistory();
+        HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
         Assert.assertEquals(historyResponseExpected, historyResponse);
     }
