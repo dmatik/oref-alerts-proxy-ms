@@ -4,8 +4,6 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 ENV LOG_LEVEL=INFO
 
-RUN apk add --no-cache tzdata
-
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
