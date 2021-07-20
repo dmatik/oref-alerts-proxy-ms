@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import java.util.ArrayList;
 
 @Entity
 @Data
@@ -15,5 +14,5 @@ public class CurrentAlert {
 
     private Long id;
     private String title;
-    private ArrayList<String> data;
+    private String[] data;
 }

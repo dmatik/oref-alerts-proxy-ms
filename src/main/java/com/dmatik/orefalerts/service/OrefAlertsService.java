@@ -7,11 +7,16 @@ import com.dmatik.orefalerts.entity.HistoryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,6 +26,7 @@ public class OrefAlertsService {
     private RestTemplate restTemplate;
 
     static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+    static final String URL_CURRENT_ALERT_MOCK = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
     static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
 
     static final String HEADER_USER_AGENT_KEY = "User-Agent";
@@ -46,6 +52,13 @@ public class OrefAlertsService {
 
         // Set custom error handler
         restTemplate.setErrorHandler(new ServiceErrorHandler());
+
+        // Setting HTTP Message Converter
+        List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+        messageConverters.add(converter);
+        restTemplate.setMessageConverters(messageConverters);
 
         // Pikud HaOref call
         ResponseEntity<CurrentAlert> orefResponse;

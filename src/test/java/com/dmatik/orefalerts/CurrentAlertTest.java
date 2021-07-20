@@ -25,7 +25,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -62,9 +61,9 @@ public class CurrentAlertTest {
         String mockPath = "src/test/mocks/alerts.json";
 
         // Create expected object
-        ArrayList<String> data = new ArrayList<>();
-        data.add("סעד");
-        data.add("אשדוד - יא,יב,טו,יז,מרינה");
+        String[] data = new String[2];
+        data[0] = "סעד";
+        data[1] = "אשדוד - יא,יב,טו,יז,מרינה";
         CurrentAlertResponse currResponseExpected =
                 new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
 
@@ -158,9 +157,9 @@ public class CurrentAlertTest {
         String mockPath = "src/test/mocks/alerts.json";
 
         // Create expected object
-        ArrayList<String> data = new ArrayList<>();
-        data.add("סעד");
-        data.add("אשדוד - יא,יב,טו,יז,מרינה");
+        String[] data = new String[2];
+        data[0] = "סעד";
+        data[1] = "אשדוד - יא,יב,טו,יז,מרינה";
         CurrentAlertResponse currResponseExpected =
                 new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
 
