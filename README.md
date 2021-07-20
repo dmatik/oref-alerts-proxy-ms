@@ -37,7 +37,7 @@ services:
 #### Example for /current endpoint
 ```json
 {
-    "alert": "true",
+    "alert": true,
     "current": {
         "data": [
             "סעד",
