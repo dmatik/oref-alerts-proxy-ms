@@ -109,7 +109,7 @@ binary_sensor:
       redalert_all:
         friendly_name: "Redalert All"
         value_template: >-
-          {{ state_attr('sensor.redalert', 'alert') == "true" }}
+          {{ state_attr('sensor.redalert', 'alert') == true }}
 ```
 
 ##### Indicator for specific alert
@@ -120,7 +120,7 @@ binary_sensor:
       redalert_ashdod:
         friendly_name: "Redalert Ashdod"
         value_template: >-
-          {{ state_attr('sensor.redalert', 'alert') == "true" and 
+          {{ state_attr('sensor.redalert', 'alert') == true and 
                     'אשדוד - יא,יב,טו,יז,מרינה' in state_attr('sensor.redalert', 'current')['data'] }}
 ```
 <!-- Real Links -->
