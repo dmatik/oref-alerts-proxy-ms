@@ -10,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -64,6 +65,8 @@ public class OrefAlertsService {
         ResponseEntity<CurrentAlert> orefResponse;
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
+        } catch (RestClientException e) {
+            return response;
         } catch (Exception e) {
             log.error(e.getMessage());
             return response;
