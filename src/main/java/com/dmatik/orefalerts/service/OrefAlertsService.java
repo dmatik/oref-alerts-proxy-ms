@@ -95,7 +95,7 @@ public class OrefAlertsService {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
             LocalDateTime now = LocalDateTime.now();
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(new File("alerts\\" + dtf.format(now) +".json"), current);
+            mapper.writeValue(new File("alerts/" + dtf.format(now) +".json"), current);
         }
 
         return response;
