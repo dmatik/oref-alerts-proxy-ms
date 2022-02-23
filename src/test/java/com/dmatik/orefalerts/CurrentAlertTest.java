@@ -57,7 +57,8 @@ public class CurrentAlertTest {
     public void currentAlert_successfulFlow() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        //String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
         String mockPath = "src/test/mocks/alerts.json";
 
         // Create expected object
@@ -90,7 +91,8 @@ public class CurrentAlertTest {
     public void currentAlert_emptyResponse() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        //String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
         CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
@@ -113,7 +115,8 @@ public class CurrentAlertTest {
     public void  currentAlert_httpNotFound() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        //String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
         CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
@@ -133,7 +136,8 @@ public class CurrentAlertTest {
     public void  currentAlert_httpServerError() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        //String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
         CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
@@ -153,7 +157,8 @@ public class CurrentAlertTest {
     public void currentAlert_controllerSuccessfulFlow() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        //String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+        String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
         String mockPath = "src/test/mocks/alerts.json";
 
         // Create expected object
