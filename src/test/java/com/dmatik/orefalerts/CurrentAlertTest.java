@@ -87,7 +87,7 @@ public class CurrentAlertTest {
     }
 
     @Test
-    public void currentAlert_emptyResponse() throws URISyntaxException {
+    public void currentAlert_emptyResponse() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
         String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
@@ -110,7 +110,7 @@ public class CurrentAlertTest {
     }
 
     @Test
-    public void  currentAlert_httpNotFound() throws URISyntaxException {
+    public void  currentAlert_httpNotFound() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
         String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
@@ -130,7 +130,7 @@ public class CurrentAlertTest {
     }
 
     @Test
-    public void  currentAlert_httpServerError() throws URISyntaxException {
+    public void  currentAlert_httpServerError() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
         String url = "https://www.oref.org.il/WarningMessages/alert/alerts.json";

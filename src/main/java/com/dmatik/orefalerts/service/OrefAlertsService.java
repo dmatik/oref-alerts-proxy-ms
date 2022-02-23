@@ -4,6 +4,7 @@ import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import com.dmatik.orefalerts.entity.HistoryItem;
 import com.dmatik.orefalerts.entity.HistoryResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -13,8 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,12 +42,12 @@ public class OrefAlertsService {
     static final String HEADER_X_REQUESTED_WITH_KEY = "X-Requested-With";
     static final String HEADER_X_REQUESTED_WITH_VALUE = "XMLHttpRequest";
 
-    public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
+    public CurrentAlertResponse getCurrentAlert() throws URISyntaxException, IOException {
 
         CurrentAlertResponse response =
                 new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
-        URI url = new URI(URL_CURRENT_ALERT);
+        URI url = new URI(URL_CURRENT_ALERT_MOCK);
 
         // Setting Headers
         HttpHeaders headers = new HttpHeaders();
@@ -61,6 +66,14 @@ public class OrefAlertsService {
         messageConverters.add(converter);
         restTemplate.setMessageConverters(messageConverters);
 
+        // Adding ClientHttpRequestInterceptor
+//        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+//        if (CollectionUtils.isEmpty(interceptors)) {
+//            interceptors = new ArrayList<>();
+//        }
+//        interceptors.add(new MyClientHttpRequestInterceptor());
+//        restTemplate.setInterceptors(interceptors);
+
         // Pikud HaOref call
         ResponseEntity<CurrentAlert> orefResponse;
         try {
@@ -77,6 +90,12 @@ public class OrefAlertsService {
         if (null != current) {
             response.setAlert(true);
             response.setCurrent(current);
+
+            // Java object to JSON file
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            LocalDateTime now = LocalDateTime.now();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(new File("alerts\\" + dtf.format(now) +".json"), current);
         }
 
         return response;
@@ -114,4 +133,18 @@ public class OrefAlertsService {
 
         return response;
     }
+
+//    private void writeAlertsToFile(String content) throws IOException {
+//        File file = new ClassPathResource("alerts.log").getFile();
+//
+//
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
+//
+//        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//        BufferedWriter bw = new BufferedWriter(fw);
+//        bw.write(content);
+//        bw.close();
+//    }
 }
