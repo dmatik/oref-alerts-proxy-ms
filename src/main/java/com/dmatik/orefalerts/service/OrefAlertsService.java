@@ -42,7 +42,7 @@ public class OrefAlertsService {
         CurrentAlertResponse response =
                 new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
 
-        URI url = new URI(URL_CURRENT_ALERT_MOCK);
+        URI url = new URI(URL_CURRENT_ALERT);
 
         // Setting Headers
         HttpHeaders headers = new HttpHeaders();
