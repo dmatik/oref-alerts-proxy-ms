@@ -40,7 +40,7 @@ public class OrefAlertsService {
     public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
 
         CurrentAlertResponse response =
-                new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
+                new CurrentAlertResponse(false, new CurrentAlert("","","", null,""));
 
         URI url = new URI(URL_CURRENT_ALERT);
 
@@ -65,10 +65,12 @@ public class OrefAlertsService {
         restTemplate.setInterceptors( Collections.singletonList(new MyClientHttpRequestInterceptor()) );
 
         // Pikud HaOref call
-        ResponseEntity<CurrentAlert> orefResponse;
+        ResponseEntity<CurrentAlert> orefResponse = null;
+        CurrentAlert current = null;
 
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
+            current = orefResponse.getBody();
         } catch (RestClientException e) {
             return response;
         } catch (Exception e) {
@@ -76,7 +78,7 @@ public class OrefAlertsService {
             return response;
         }
 
-        CurrentAlert current = orefResponse.getBody();
+        //CurrentAlert current = orefResponse.getBody();
 
         if (null != current) {
             response.setAlert(true);

@@ -66,8 +66,16 @@ public class CurrentAlertTest {
         data[0] = "סעד";
         data[1] = "אשדוד - יא,יב,טו,יז,מרינה";
         CurrentAlertResponse currResponseExpected =
-                new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
-
+                new CurrentAlertResponse(
+                        true,
+                        new CurrentAlert(
+                                "132944072580000000",
+                                "1",
+                                "ירי טילים ורקטות",
+                                data,
+                                "היכנסו למרחב המוגן"
+                        )
+                );
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
@@ -95,7 +103,17 @@ public class CurrentAlertTest {
         //String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
-        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
+        CurrentAlertResponse currResponseExpected =
+                new CurrentAlertResponse(
+                        false,
+                        new CurrentAlert(
+                                "",
+                                "",
+                                "",
+                                null,
+                                ""
+                        )
+                );
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(url))
@@ -119,7 +137,17 @@ public class CurrentAlertTest {
         //String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
-        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
+        CurrentAlertResponse currResponseExpected =
+                new CurrentAlertResponse(
+                        false,
+                        new CurrentAlert(
+                                "",
+                                "",
+                                "",
+                                null,
+                                ""
+                        )
+                );
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
@@ -140,7 +168,17 @@ public class CurrentAlertTest {
         //String url = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
 
         // Create expected object
-        CurrentAlertResponse currResponseExpected = new CurrentAlertResponse(false, new CurrentAlert(null, "", null));
+        CurrentAlertResponse currResponseExpected =
+                new CurrentAlertResponse(
+                        false,
+                        new CurrentAlert(
+                                "",
+                                "",
+                                "",
+                                null,
+                                ""
+                        )
+                );
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
@@ -166,7 +204,16 @@ public class CurrentAlertTest {
         data[0] = "סעד";
         data[1] = "אשדוד - יא,יב,טו,יז,מרינה";
         CurrentAlertResponse currResponseExpected =
-                new CurrentAlertResponse(true, new CurrentAlert(1621242007417L, "התרעות פיקוד העורף", data));
+                new CurrentAlertResponse(
+                        true,
+                        new CurrentAlert(
+                                "132944072580000000",
+                                "1",
+                                "ירי טילים ורקטות",
+                                data,
+                                "היכנסו למרחב המוגן"
+                        )
+                );
 
 
         // Read Mock from file

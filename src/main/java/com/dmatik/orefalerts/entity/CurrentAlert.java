@@ -12,7 +12,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class CurrentAlert {
 
-    private Long id;
+    private String id;
+    private String cat;
     private String title;
     private String[] data;
+    private String desc;
 }

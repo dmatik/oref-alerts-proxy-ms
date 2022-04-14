@@ -36,6 +36,7 @@ public class MyClientHttpRequestInterceptor implements ClientHttpRequestIntercep
         try {
             jsonObject = new JSONObject(new JSONTokener(responseBody));
 
+            // Response parsed as JSON successfully. Saving as files.
             String envSaveToFiles = System.getenv("SAVE_ALERTS_TO_FILES");
             if ( "TRUE".equals(envSaveToFiles) || "true".equals(envSaveToFiles) ) {
                 // Java object to JSON file
@@ -46,7 +47,7 @@ public class MyClientHttpRequestInterceptor implements ClientHttpRequestIntercep
             }
 
         } catch (JSONException e) {
-            // Do Nothing
+            // Response could not be parsed as JSON.
         } catch (IOException e) {
             // Do Nothing
         } finally {
