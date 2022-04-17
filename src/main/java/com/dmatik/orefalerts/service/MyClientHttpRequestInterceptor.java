@@ -1,5 +1,6 @@
 package com.dmatik.orefalerts.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -16,6 +17,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Slf4j
 @Component
 public class MyClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
 
@@ -35,6 +37,7 @@ public class MyClientHttpRequestInterceptor implements ClientHttpRequestIntercep
 
         try {
             jsonObject = new JSONObject(new JSONTokener(responseBody));
+            log.info("Current Alert: " + jsonObject);
 
             // Response parsed as JSON successfully. Saving as files.
             String envSaveToFiles = System.getenv("SAVE_ALERTS_TO_FILES");
