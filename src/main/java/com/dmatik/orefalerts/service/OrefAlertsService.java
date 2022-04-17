@@ -64,7 +64,7 @@ public class OrefAlertsService {
         restTemplate.setMessageConverters(messageConverters);
 
         // Adding ClientHttpRequestInterceptor
-        restTemplate.setInterceptors( Collections.singletonList(new MyClientHttpRequestInterceptor()) );
+        restTemplate.setInterceptors( Collections.singletonList(new CurrentAlertHttpRequestInterceptor()) );
 
         // Pikud HaOref call
         ResponseEntity<CurrentAlert> orefResponse = null;
@@ -115,6 +115,9 @@ public class OrefAlertsService {
 
         // Set custom error handler
         restTemplate.setErrorHandler(new ServiceErrorHandler());
+
+        // Adding ClientHttpRequestInterceptor
+        restTemplate.setInterceptors( Collections.singletonList( new HistoryHttpRequestInterceptor() ) );
 
         // Pikud HaOref call
         ResponseEntity<HistoryItem[]> orefResponse;

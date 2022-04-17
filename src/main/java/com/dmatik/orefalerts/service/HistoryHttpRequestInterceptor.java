@@ -1,9 +1,6 @@
 package com.dmatik.orefalerts.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -13,15 +10,14 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
-import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 @Component
-public class MyClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
+public class HistoryHttpRequestInterceptor implements ClientHttpRequestInterceptor {
 
-    private static FileWriter file;
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request,
@@ -29,38 +25,9 @@ public class MyClientHttpRequestInterceptor implements ClientHttpRequestIntercep
                                         ClientHttpRequestExecution execution) throws IOException {
 
         ClientHttpResponse response = execution.execute(request, body);
-        ClientHttpResponse buffResponse = new BufferedClientHttpResponse(response);
+        response = new BufferedClientHttpResponse(response);
 
-        InputStream responseBody = buffResponse.getBody();
 
-        JSONObject jsonObject;
-
-        try {
-            jsonObject = new JSONObject(new JSONTokener(responseBody));
-            log.info("Current Alert: " + jsonObject);
-
-            response = buffResponse;
-
-            // Response parsed as JSON successfully. Saving as files.
-            String envSaveToFiles = System.getenv("SAVE_ALERTS_TO_FILES");
-            if ( "TRUE".equals(envSaveToFiles) || "true".equals(envSaveToFiles) ) {
-                // Java object to JSON file
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-                LocalDateTime now = LocalDateTime.now();
-                file = new FileWriter("alerts/" + dtf.format(now) + ".json");
-                file.write(jsonObject.toString());
-            }
-
-        } catch (JSONException e) {
-            // Response could not be parsed as JSON.
-        } catch (IOException e) {
-            // Do Nothing
-        } finally {
-            if (null != file) {
-                file.flush();
-                file.close();
-            }
-        }
 
         return response;
     }
