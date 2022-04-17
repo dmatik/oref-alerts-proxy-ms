@@ -29,15 +29,17 @@ public class MyClientHttpRequestInterceptor implements ClientHttpRequestIntercep
                                         ClientHttpRequestExecution execution) throws IOException {
 
         ClientHttpResponse response = execution.execute(request, body);
-        response = new BufferedClientHttpResponse(response);
+        ClientHttpResponse buffResponse = new BufferedClientHttpResponse(response);
 
-        InputStream responseBody = response.getBody();
+        InputStream responseBody = buffResponse.getBody();
 
         JSONObject jsonObject;
 
         try {
             jsonObject = new JSONObject(new JSONTokener(responseBody));
             log.info("Current Alert: " + jsonObject);
+
+            response = buffResponse;
 
             // Response parsed as JSON successfully. Saving as files.
             String envSaveToFiles = System.getenv("SAVE_ALERTS_TO_FILES");

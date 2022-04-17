@@ -27,8 +27,10 @@ public class OrefAlertsService {
     private RestTemplate restTemplate;
 
     static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
-    static final String URL_CURRENT_ALERT_MOCK = "https://8bd02e38-21e7-4516-9f12-4f124fd9ce1e.mock.pstmn.io/redalert";
+    static final String URL_CURRENT_ALERT_MOCK = "http://10.0.0.30:48080/oref_alerts/alert";
     static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+    static final String URL_HISTORY_MOCK = "http://10.0.0.30:48080/oref_alerts/history";
+    static final String URL_CURRENT_ALERT_MOCK_BAD = "http://10.0.0.30:48080/gen_json";
 
     static final String HEADER_USER_AGENT_KEY = "User-Agent";
     static final String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
@@ -72,18 +74,24 @@ public class OrefAlertsService {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
             current = orefResponse.getBody();
         } catch (RestClientException e) {
+            log.error(e.getMessage());
             return response;
         } catch (Exception e) {
             log.error(e.getMessage());
             return response;
         }
 
-        //CurrentAlert current = orefResponse.getBody();
-
         if (null != current) {
-            response.setAlert(true);
-            response.setCurrent(current);
-            log.info("Current Alert: " + current.toString());
+            if ( null == current.getId() ) {
+                // Wrong JSON structure
+                current = null;
+                log.error("Wrong JSON Response structure");
+            } else {
+                // Correct JSON structure
+                response.setAlert(true);
+                response.setCurrent(current);
+                log.info("Current Alert: " + current.toString());
+            }
         }
 
         return response;
