@@ -83,6 +83,7 @@ public class OrefAlertsService {
         if (null != current) {
             response.setAlert(true);
             response.setCurrent(current);
+            log.info("Current Alert: " + current.toString());
         }
 
         return response;
