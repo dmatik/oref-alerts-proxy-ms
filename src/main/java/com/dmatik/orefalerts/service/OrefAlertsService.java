@@ -74,7 +74,7 @@ public class OrefAlertsService {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
             current = orefResponse.getBody();
         } catch (RestClientException e) {
-            log.error(e.getMessage());
+            //log.error(e.getMessage());
             return response;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -123,6 +123,9 @@ public class OrefAlertsService {
         ResponseEntity<HistoryItem[]> orefResponse;
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
+        } catch (RestClientException e) {
+            //log.error(e.getMessage());
+            return response;
         } catch (Exception e) {
             log.error(e.getMessage());
             return response;
