@@ -18,4 +18,10 @@ public class OrefAlertsServiceApplication {
 		return new RestTemplate();
 	}
 
+	@Bean
+	public RestTemplate restTemplateHistory() {
+
+		return new RestTemplate();
+	}
+
 }

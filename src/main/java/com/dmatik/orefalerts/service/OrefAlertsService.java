@@ -26,6 +26,9 @@ public class OrefAlertsService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private RestTemplate restTemplateHistory;
+
     static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
     static final String URL_CURRENT_ALERT_MOCK = "http://10.0.0.30:48080/oref_alerts/alert";
     static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
@@ -114,15 +117,15 @@ public class OrefAlertsService {
         HttpEntity<HttpHeaders> entity = new HttpEntity<>(headers);
 
         // Set custom error handler
-        restTemplate.setErrorHandler(new ServiceErrorHandler());
+        restTemplateHistory.setErrorHandler(new ServiceErrorHandler());
 
         // Adding ClientHttpRequestInterceptor
-        restTemplate.setInterceptors( Collections.singletonList( new HistoryHttpRequestInterceptor() ) );
+        restTemplateHistory.setInterceptors( Collections.singletonList( new HistoryHttpRequestInterceptor() ) );
 
         // Pikud HaOref call
         ResponseEntity<HistoryItem[]> orefResponse;
         try {
-            orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
+            orefResponse = restTemplateHistory.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
         } catch (RestClientException e) {
             //log.error(e.getMessage());
             return response;

@@ -42,14 +42,14 @@ public class HistoryTest {
     private OrefAlertsController orefAlertsController;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplateHistory;
 
     private MockRestServiceServer mockServer;
 
     @Before
     public void init() {
 
-        mockServer = MockRestServiceServer.createServer(restTemplate);
+        mockServer = MockRestServiceServer.createServer(restTemplateHistory);
     }
 
     @Test
