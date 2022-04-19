@@ -97,6 +97,8 @@ public class OrefAlertsService {
             }
         }
 
+        log.trace("Current Alert Response: " + response.toString());
+
         return response;
     }
 
@@ -135,6 +137,8 @@ public class OrefAlertsService {
         }
 
         response.setHistory( orefResponse.getBody() );
+
+        log.trace("History Response: " + response.toString());
 
         return response;
     }
