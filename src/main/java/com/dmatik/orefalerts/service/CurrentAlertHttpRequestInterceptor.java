@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -27,9 +28,9 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                                         ClientHttpRequestExecution execution) throws IOException {
 
         ClientHttpResponse response = execution.execute(request, body);
-        ClientHttpResponse buffResponse = new CurrentBufferedClientHttpResponse(response);
+        response = new CurrentBufferedClientHttpResponse(response);
 
-        InputStream responseBody = buffResponse.getBody();
+        InputStream responseBody = response.getBody();
 
         JSONObject jsonObject;
 
@@ -40,16 +41,15 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             for (int length; (length = responseBody.read(buffer)) != -1; ) {
                 result.write(buffer, 0, length);
             }
-            String responseBodyString = result.toString("UTF-8");
+            String responseBodyString = result.toString(StandardCharsets.UTF_8);
             log.info("Current Alert Stream: " + responseBodyString);
 
-            //TODO Remove wrong characters from response to be able to parse to JSON.
+            // Remove wrong characters from response to be able to parse to JSON.
             responseBodyString=responseBodyString.replace("\r\n","");
 
+            // Parse to JSON
             jsonObject = new JSONObject(responseBodyString);
             log.info("Current Alert JSON: " + jsonObject);
-
-            response = buffResponse;
 
         } catch (JSONException e) {
             // Response could not be parsed as JSON.
