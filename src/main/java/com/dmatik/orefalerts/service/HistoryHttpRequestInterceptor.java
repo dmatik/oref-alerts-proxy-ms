@@ -25,7 +25,7 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
                                         ClientHttpRequestExecution execution) throws IOException {
 
         ClientHttpResponse response = execution.execute(request, body);
-        response = new BufferedClientHttpResponse(response);
+        response = new HistoryBufferedClientHttpResponse(response);
 
 
 
@@ -35,12 +35,12 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
     /**
      * Wrapper around ClientHttpResponse, buffers the body so it can be read repeatedly (for logging & consuming the result).
      */
-    private static class BufferedClientHttpResponse implements ClientHttpResponse {
+    private static class HistoryBufferedClientHttpResponse implements ClientHttpResponse {
 
         private final ClientHttpResponse response;
         private byte[] body;
 
-        public BufferedClientHttpResponse(ClientHttpResponse response) {
+        public HistoryBufferedClientHttpResponse(ClientHttpResponse response) {
             this.response = response;
         }
 

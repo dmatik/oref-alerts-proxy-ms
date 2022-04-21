@@ -27,7 +27,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                                         ClientHttpRequestExecution execution) throws IOException {
 
         ClientHttpResponse response = execution.execute(request, body);
-        ClientHttpResponse buffResponse = new BufferedClientHttpResponse(response);
+        ClientHttpResponse buffResponse = new CurrentBufferedClientHttpResponse(response);
 
         InputStream responseBody = buffResponse.getBody();
 
@@ -50,12 +50,12 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
     /**
      * Wrapper around ClientHttpResponse, buffers the body so it can be read repeatedly (for logging & consuming the result).
      */
-    private static class BufferedClientHttpResponse implements ClientHttpResponse {
+    private static class CurrentBufferedClientHttpResponse implements ClientHttpResponse {
 
         private final ClientHttpResponse response;
         private byte[] body;
 
-        public BufferedClientHttpResponse(ClientHttpResponse response) {
+        public CurrentBufferedClientHttpResponse(ClientHttpResponse response) {
             this.response = response;
         }
 
