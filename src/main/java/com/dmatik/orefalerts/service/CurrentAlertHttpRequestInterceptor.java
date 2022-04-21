@@ -3,7 +3,6 @@ package com.dmatik.orefalerts.service;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -34,8 +34,20 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         JSONObject jsonObject;
 
         try {
-            jsonObject = new JSONObject(new JSONTokener(responseBody));
-            log.info("Current Alert: " + jsonObject);
+            // Convert InputStream to String
+            ByteArrayOutputStream result = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for (int length; (length = responseBody.read(buffer)) != -1; ) {
+                result.write(buffer, 0, length);
+            }
+            String responseBodyString = result.toString("UTF-8");
+            log.info("Current Alert Stream: " + responseBodyString);
+
+            //TODO Remove wrong characters from response to be able to parse to JSON.
+            responseBodyString=responseBodyString.replace("\r\n","");
+
+            jsonObject = new JSONObject(responseBodyString);
+            log.info("Current Alert JSON: " + jsonObject);
 
             response = buffResponse;
 

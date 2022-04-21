@@ -87,7 +87,6 @@ public class OrefAlertsService {
         if (null != current) {
             if ( null == current.getId() ) {
                 // Wrong JSON structure
-                current = null;
                 log.error("Wrong JSON Response structure");
             } else {
                 // Correct JSON structure
