@@ -1,8 +1,6 @@
 FROM openjdk:11.0.1-jdk-slim-sid
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-ADD alerts /alerts
-VOLUME /alerts
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 ARG BUILD_DATE
