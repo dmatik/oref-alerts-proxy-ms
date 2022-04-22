@@ -85,7 +85,10 @@ public class OrefAlertsService {
         }
 
         if (null != current) {
-            if ( null == current.getId() ) {
+            if (null != current.getTitle() && current.getTitle().equals("EMPTY_RESPONSE")) {
+                // Empty response
+                log.debug("Empty response. No alert.");
+            } else if ( null == current.getId() ) {
                 // Wrong JSON structure
                 log.error("Wrong JSON Response structure");
             } else {

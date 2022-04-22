@@ -42,7 +42,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                 result.write(buffer, 0, length);
             }
             String responseBodyString = result.toString(StandardCharsets.UTF_8);
-            log.info("Current Alert Stream: " + responseBodyString);
+            log.debug("Current Alert Stream: " + responseBodyString);
 
             // Remove wrong characters from response to be able to parse to JSON.
             responseBodyString=responseBodyString.replace("\r\n","");
@@ -53,7 +53,9 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
 
         } catch (JSONException e) {
             // Response could not be parsed as JSON.
-            log.debug("Could not parse Current Alert as JSON");
+            log.debug("Could not parse Current Alert as JSON. Setting to empty response.");
+            // Setting to empty response
+            response = new EmptyCurrentBufferedClientHttpResponse(response);
         }
 
         return response;
@@ -97,6 +99,50 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                 body = StreamUtils.copyToByteArray(response.getBody());
             }
             return new ByteArrayInputStream(body);
+        }
+
+        @Override
+        public HttpHeaders getHeaders() {
+            return response.getHeaders();
+        }
+    }
+
+    /**
+     * Wrapper around ClientHttpResponse, with EMPTY_RESPONSE as title.
+     */
+    private static class EmptyCurrentBufferedClientHttpResponse implements ClientHttpResponse {
+
+        private final ClientHttpResponse response;
+        private byte[] body;
+        private String emptyJson = "{\"id\": \"\",\"cat\": \"\",\"title\": \"EMPTY_RESPONSE\",\"data\": null,\"desc\": \"\"}";
+
+        public EmptyCurrentBufferedClientHttpResponse(ClientHttpResponse response) {
+            this.response = response;
+        }
+
+        @Override
+        public HttpStatus getStatusCode() throws IOException {
+            return response.getStatusCode();
+        }
+
+        @Override
+        public int getRawStatusCode() throws IOException {
+            return response.getRawStatusCode();
+        }
+
+        @Override
+        public String getStatusText() throws IOException {
+            return response.getStatusText();
+        }
+
+        @Override
+        public void close() {
+            response.close();
+        }
+
+        @Override
+        public InputStream getBody() throws IOException {
+            return new ByteArrayInputStream(emptyJson.getBytes());
         }
 
         @Override
