@@ -45,7 +45,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             log.debug("Current Alert Stream: " + responseBodyString);
 
             // Remove wrong characters from response to be able to parse to JSON.
-            responseBodyString=responseBodyString.replace("\r\n","");
+            responseBodyString=responseBodyString.replaceAll("[\r\n]","");
 
             // Parse to JSON
             jsonObject = new JSONObject(responseBodyString);
@@ -113,8 +113,6 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
     private static class EmptyCurrentBufferedClientHttpResponse implements ClientHttpResponse {
 
         private final ClientHttpResponse response;
-        private byte[] body;
-        private String emptyJson = "{\"id\": \"\",\"cat\": \"\",\"title\": \"EMPTY_RESPONSE\",\"data\": null,\"desc\": \"\"}";
 
         public EmptyCurrentBufferedClientHttpResponse(ClientHttpResponse response) {
             this.response = response;
@@ -141,7 +139,8 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         }
 
         @Override
-        public InputStream getBody() throws IOException {
+        public InputStream getBody() {
+            String emptyJson = "{\"id\": \"\",\"cat\": \"\",\"title\": \"EMPTY_RESPONSE\",\"data\": null,\"desc\": \"\"}";
             return new ByteArrayInputStream(emptyJson.getBytes());
         }
 

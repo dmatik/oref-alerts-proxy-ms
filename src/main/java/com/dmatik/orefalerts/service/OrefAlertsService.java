@@ -95,11 +95,11 @@ public class OrefAlertsService {
                 // Correct JSON structure
                 response.setAlert(true);
                 response.setCurrent(current);
-                log.info("Current Alert: " + current.toString());
+                log.info("Current Alert: " + current);
             }
         }
 
-        log.debug("Current Alert Response: " + response.toString());
+        log.debug("Current Alert Response: " + response);
 
         return response;
     }
@@ -140,7 +140,7 @@ public class OrefAlertsService {
 
         response.setHistory( orefResponse.getBody() );
 
-        log.debug("History Response: " + response.toString());
+        log.debug("History Response: " + response);
 
         return response;
     }
