@@ -33,7 +33,7 @@ public class OrefAlertsService {
     static final String URL_CURRENT_ALERT_MOCK = "http://10.0.0.30:48080/oref_alerts/alert";
     static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
     static final String URL_HISTORY_MOCK = "http://10.0.0.30:48080/oref_alerts/history";
-    static final String URL_CURRENT_ALERT_MOCK_BAD = "http://10.0.0.30:48080/gen_json";
+    static final String URL_CURRENT_ALERT_MOCK_WRONG = "http://10.0.0.30:48080/gen_json";
 
     static final String HEADER_USER_AGENT_KEY = "User-Agent";
     static final String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
@@ -48,6 +48,15 @@ public class OrefAlertsService {
                 new CurrentAlertResponse(false, new CurrentAlert("","","", null,""));
 
         URI url = new URI(URL_CURRENT_ALERT);
+
+        // Check ENV VAR for Mock
+        String currentAlertMockEnv = System.getenv("CURRENT_ALERT_MOCK");
+        if ( currentAlertMockEnv.equals("TRUE") || currentAlertMockEnv.equals("true") ) {
+            url = new URI(URL_CURRENT_ALERT_MOCK);
+        }
+        if ( currentAlertMockEnv.equals("WRONG") || currentAlertMockEnv.equals("wrong") ) {
+            url = new URI(URL_CURRENT_ALERT_MOCK_WRONG);
+        }
 
         // Setting Headers
         HttpHeaders headers = new HttpHeaders();
@@ -70,8 +79,8 @@ public class OrefAlertsService {
         restTemplate.setInterceptors( Collections.singletonList(new CurrentAlertHttpRequestInterceptor()) );
 
         // Pikud HaOref call
-        ResponseEntity<CurrentAlert> orefResponse = null;
-        CurrentAlert current = null;
+        ResponseEntity<CurrentAlert> orefResponse;
+        CurrentAlert current;
 
         try {
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
@@ -112,6 +121,12 @@ public class OrefAlertsService {
         response.setHistory(new HistoryItem[0]);
 
         URI url = new URI(URL_HISTORY);
+
+        // Check ENV VAR for Mock
+        String historyMockEnv = System.getenv("HISTORY_MOCK");
+        if ( historyMockEnv.equals("TRUE") || historyMockEnv.equals("true") ) {
+            url = new URI(URL_HISTORY_MOCK);
+        }
 
         // Setting Headers
         HttpHeaders headers = new HttpHeaders();
