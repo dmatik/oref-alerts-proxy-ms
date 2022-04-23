@@ -51,11 +51,15 @@ public class OrefAlertsService {
 
         // Check ENV VAR for Mock
         String currentAlertMockEnv = System.getenv("CURRENT_ALERT_MOCK");
-        if ( currentAlertMockEnv.equals("TRUE") || currentAlertMockEnv.equals("true") ) {
-            url = new URI(URL_CURRENT_ALERT_MOCK);
-        }
-        if ( currentAlertMockEnv.equals("WRONG") || currentAlertMockEnv.equals("wrong") ) {
-            url = new URI(URL_CURRENT_ALERT_MOCK_WRONG);
+        if (null != currentAlertMockEnv) {
+            if ( currentAlertMockEnv.equals("TRUE") || currentAlertMockEnv.equals("true") ) {
+                url = new URI(URL_CURRENT_ALERT_MOCK);
+                log.info("Calling positive MOCK service");
+            }
+            if ( currentAlertMockEnv.equals("WRONG") || currentAlertMockEnv.equals("wrong") ) {
+                url = new URI(URL_CURRENT_ALERT_MOCK_WRONG);
+                log.info("Calling negative MOCK service with wrong JSON structure");
+            }
         }
 
         // Setting Headers
@@ -124,8 +128,11 @@ public class OrefAlertsService {
 
         // Check ENV VAR for Mock
         String historyMockEnv = System.getenv("HISTORY_MOCK");
-        if ( historyMockEnv.equals("TRUE") || historyMockEnv.equals("true") ) {
-            url = new URI(URL_HISTORY_MOCK);
+        if (null != historyMockEnv) {
+            if (historyMockEnv.equals("TRUE") || historyMockEnv.equals("true")) {
+                url = new URI(URL_HISTORY_MOCK);
+                log.info("Calling positive MOCK service");
+            }
         }
 
         // Setting Headers
