@@ -30,7 +30,6 @@ services:
           - 49000:9001
         environment:
             TZ: "Asia/Jerusalem"
-            LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: "INFO"
 ```
 
 ### JSON Response Examples
