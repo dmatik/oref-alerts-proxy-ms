@@ -45,7 +45,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             log.debug("Current Alert Stream: " + responseBodyString);
 
             // Remove wrong characters from response to be able to parse to JSON.
-            responseBodyString=responseBodyString.replaceAll("[\r\n]","");
+            responseBodyString=responseBodyString.replaceAll("[\r\n\u0001\0]","");
 
             // Parse to JSON
             jsonObject = new JSONObject(responseBodyString);
