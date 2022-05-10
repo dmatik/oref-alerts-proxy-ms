@@ -45,11 +45,13 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             log.debug("Current Alert Stream: " + responseBodyString);
 
             // Remove wrong characters from response to be able to parse to JSON.
-            responseBodyString=responseBodyString.replaceAll("[\r\n\u0001\0]","");
+            responseBodyString=responseBodyString.replaceAll("[\r\n\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F]","");
 
             // Parse to JSON
             jsonObject = new JSONObject(responseBodyString);
             log.info("Current Alert JSON: " + jsonObject);
+
+            response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyString);
 
         } catch (JSONException e) {
             // Response could not be parsed as JSON.
@@ -142,6 +144,51 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         public InputStream getBody() {
             String emptyJson = "{\"id\": \"\",\"cat\": \"\",\"title\": \"EMPTY_RESPONSE\",\"data\": null,\"desc\": \"\"}";
             return new ByteArrayInputStream(emptyJson.getBytes());
+        }
+
+        @Override
+        public HttpHeaders getHeaders() {
+            return response.getHeaders();
+        }
+    }
+
+    /**
+     * Wrapper around ClientHttpResponse, with good response.
+     */
+    private static class GoodCurrentBufferedClientHttpResponse implements ClientHttpResponse {
+
+        private final ClientHttpResponse response;
+
+        private final String body;
+
+        public GoodCurrentBufferedClientHttpResponse(ClientHttpResponse response, String body) {
+            this.response = response;
+            this.body = body;
+        }
+
+        @Override
+        public HttpStatus getStatusCode() throws IOException {
+            return response.getStatusCode();
+        }
+
+        @Override
+        public int getRawStatusCode() throws IOException {
+            return response.getRawStatusCode();
+        }
+
+        @Override
+        public String getStatusText() throws IOException {
+            return response.getStatusText();
+        }
+
+        @Override
+        public void close() {
+            response.close();
+        }
+
+        @Override
+        public InputStream getBody() {
+            return new ByteArrayInputStream(this.body.getBytes());
         }
 
         @Override
