@@ -48,6 +48,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             responseBodyString =
                     responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
+            // Checking if there is "{" in the response.
             int i = responseBodyString.indexOf("{");
 
             if (i > -1) {
@@ -56,7 +57,6 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                 // Parse to JSON
                 jsonObject = new JSONObject(responseBodyString);
                 log.info("Current Alert JSON: " + jsonObject);
-
                 response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyString);
 
             } else {
