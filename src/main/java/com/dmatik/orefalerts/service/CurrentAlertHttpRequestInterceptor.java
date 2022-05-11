@@ -49,19 +49,26 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
                     responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
             int i = responseBodyString.indexOf("{");
+
             if (i > -1) {
                 responseBodyString = responseBodyString.substring(i);
+
+                // Parse to JSON
+                jsonObject = new JSONObject(responseBodyString);
+                log.info("Current Alert JSON: " + jsonObject);
+
+                response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyString);
+
+            } else {
+                // Empty response.
+                log.debug("Current Alert is not valid JSON. Setting to empty response.");
+                // Setting to empty response
+                response = new EmptyCurrentBufferedClientHttpResponse(response);
             }
-
-            // Parse to JSON
-            jsonObject = new JSONObject(responseBodyString);
-            log.info("Current Alert JSON: " + jsonObject);
-
-            response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyString);
 
         } catch (JSONException e) {
             // Response could not be parsed as JSON.
-            log.debug("Could not parse Current Alert as JSON. Setting to empty response.");
+            log.error("Could not parse Current Alert as JSON. Setting to empty response.");
             // Setting to empty response
             response = new EmptyCurrentBufferedClientHttpResponse(response);
         }
