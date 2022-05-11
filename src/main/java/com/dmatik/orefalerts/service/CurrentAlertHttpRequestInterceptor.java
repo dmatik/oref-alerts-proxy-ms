@@ -48,7 +48,10 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             responseBodyString =
                     responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
-            responseBodyString = responseBodyString.substring(responseBodyString.indexOf("{"));
+            int i = responseBodyString.indexOf("{");
+            if (i > -1) {
+                responseBodyString = responseBodyString.substring(i);
+            }
 
             // Parse to JSON
             jsonObject = new JSONObject(responseBodyString);
