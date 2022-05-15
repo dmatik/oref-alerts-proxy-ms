@@ -112,7 +112,11 @@ public class OrefAlertsService {
             }
         }
 
-        log.info("Current Alert Response: " + response);
+        if ( response.getAlert() ) {
+            log.info("Current Alert Response: " + response);
+        } else {
+            log.debug("Current Alert Response: " + response);
+        }
 
         return response;
     }
