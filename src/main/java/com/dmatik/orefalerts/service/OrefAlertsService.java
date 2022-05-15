@@ -108,11 +108,11 @@ public class OrefAlertsService {
                 // Correct JSON structure
                 response.setAlert(true);
                 response.setCurrent(current);
-                log.info("Current Alert: " + current);
+                log.debug("Current Alert: " + current);
             }
         }
 
-        log.debug("Current Alert Response: " + response);
+        log.info("Current Alert Response: " + response);
 
         return response;
     }
