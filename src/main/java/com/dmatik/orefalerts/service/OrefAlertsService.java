@@ -166,7 +166,7 @@ public class OrefAlertsService {
 
         response.setHistory( orefResponse.getBody() );
 
-        if(response.getHistory().length > 0) {
+        if( null != response.getHistory() && response.getHistory().length > 0) {
             log.info("History Response: " + response);
         } else {
             log.debug("History Response: " + response);
