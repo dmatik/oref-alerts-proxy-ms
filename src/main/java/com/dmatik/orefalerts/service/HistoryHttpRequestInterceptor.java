@@ -11,8 +11,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -27,7 +29,16 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
         ClientHttpResponse response = execution.execute(request, body);
         response = new HistoryBufferedClientHttpResponse(response);
 
+        InputStream responseBody = response.getBody();
 
+        // Convert InputStream to String
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        for (int length; (length = responseBody.read(buffer)) != -1; ) {
+            result.write(buffer, 0, length);
+        }
+        String responseBodyString = result.toString(StandardCharsets.UTF_8);
+        log.debug("History Stream: " + responseBodyString);
 
         return response;
     }

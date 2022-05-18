@@ -108,14 +108,14 @@ public class OrefAlertsService {
                 // Correct JSON structure
                 response.setAlert(true);
                 response.setCurrent(current);
-                log.debug("Current Alert: " + current);
+                log.debug(current.toString());
             }
         }
 
         if ( response.getAlert() ) {
-            log.info("Current Alert Response: " + response);
+            log.info(response.toString());
         } else {
-            log.debug("Current Alert Response: " + response);
+            log.debug(response.toString());
         }
 
         return response;
@@ -167,9 +167,9 @@ public class OrefAlertsService {
         response.setHistory( orefResponse.getBody() );
 
         if( null != response.getHistory() && response.getHistory().length > 0) {
-            log.info("History Response: " + response);
+            log.info(response.toString());
         } else {
-            log.debug("History Response: " + response);
+            log.debug(response.toString());
         }
 
         return response;
