@@ -34,6 +34,7 @@ public class OrefAlertsService {
     static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
     static final String URL_HISTORY_MOCK = "http://10.0.0.30:48080/oref_alerts/history";
     static final String URL_CURRENT_ALERT_MOCK_WRONG = "http://10.0.0.30:48080/gen_json";
+    static final String URL_CURRENT_ALERT_MOCK_BAD_JSON = "http://10.0.0.30:48080/bad_json";
 
     static final String HEADER_USER_AGENT_KEY = "User-Agent";
     static final String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
@@ -59,6 +60,10 @@ public class OrefAlertsService {
             if ( currentAlertMockEnv.equals("WRONG") || currentAlertMockEnv.equals("wrong") ) {
                 url = new URI(URL_CURRENT_ALERT_MOCK_WRONG);
                 log.info("Calling negative MOCK service with wrong JSON structure");
+            }
+            if ( currentAlertMockEnv.equals("BAD") || currentAlertMockEnv.equals("bad") ) {
+                url = new URI(URL_CURRENT_ALERT_MOCK_BAD_JSON);
+                log.info("Calling negative MOCK service with bad JSON");
             }
         }
 
@@ -104,6 +109,7 @@ public class OrefAlertsService {
             } else if ( null == current.getId() ) {
                 // Wrong JSON structure
                 log.error("Wrong JSON Response structure");
+                log.info(response.toString());
             } else {
                 // Correct JSON structure
                 response.setAlert(true);
@@ -114,8 +120,6 @@ public class OrefAlertsService {
 
         if ( response.getAlert() ) {
             log.info(response.toString());
-        } else {
-            log.debug(response.toString());
         }
 
         return response;

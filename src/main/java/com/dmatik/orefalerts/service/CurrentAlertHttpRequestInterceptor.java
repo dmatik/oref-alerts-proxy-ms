@@ -34,44 +34,46 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
 
         JSONObject jsonObject;
 
-        try {
-            // Convert InputStream to String
-            ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            for (int length; (length = responseBody.read(buffer)) != -1; ) {
-                result.write(buffer, 0, length);
-            }
-            String responseBodyString = result.toString(StandardCharsets.UTF_8);
-            log.debug("Current Alert Stream: " + responseBodyString);
+        // Convert InputStream to String
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        for (int length; (length = responseBody.read(buffer)) != -1; ) {
+            result.write(buffer, 0, length);
+        }
+        String responseBodyString = result.toString(StandardCharsets.UTF_8);
 
-            // Remove wrong characters from response to be able to parse to JSON.
-            responseBodyString =
-                    responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
+        // Remove wrong characters from response to be able to parse to JSON.
+        String responseBodyStringClean =
+                responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
-            // Checking if there is "{" in the response.
-            int i = responseBodyString.indexOf("{");
+        // Checking if there is "{" in the response.
+        int i = responseBodyStringClean.indexOf("{");
 
-            if (i > -1) {
-                responseBodyString = responseBodyString.substring(i);
+        if (i > -1) {
+            responseBodyStringClean = responseBodyStringClean.substring(i);
 
+            try {
                 // Parse to JSON
-                jsonObject = new JSONObject(responseBodyString);
+                jsonObject = new JSONObject(responseBodyStringClean);
                 log.info("Current Alert JSON: " + jsonObject);
-                response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyString);
+                response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyStringClean);
 
-            } else {
-                // Empty response.
-                log.debug("Current Alert is not valid JSON. Setting to empty response.");
+            } catch (JSONException e) {
+                // Response could not be parsed as JSON.
+                log.error("Current Alert Stream: " + responseBodyString);
+                log.error("Could not parse Current Alert as JSON. Setting to empty response.");
                 // Setting to empty response
                 response = new EmptyCurrentBufferedClientHttpResponse(response);
             }
 
-        } catch (JSONException e) {
-            // Response could not be parsed as JSON.
-            log.error("Could not parse Current Alert as JSON. Setting to empty response.");
+        } else {
+            // Empty response.
+            log.debug("Current Alert Stream: " + responseBodyString);
+            log.debug("Current Alert is not valid JSON. Setting to empty response.");
             // Setting to empty response
             response = new EmptyCurrentBufferedClientHttpResponse(response);
         }
+
 
         return response;
     }
