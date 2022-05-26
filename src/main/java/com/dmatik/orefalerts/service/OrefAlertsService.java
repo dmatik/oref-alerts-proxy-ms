@@ -55,15 +55,15 @@ public class OrefAlertsService {
         if (null != currentAlertMockEnv) {
             if ( currentAlertMockEnv.equals("TRUE") || currentAlertMockEnv.equals("true") ) {
                 url = new URI(URL_CURRENT_ALERT_MOCK);
-                log.info("Calling positive MOCK service");
+                log.info("Current Alert: Calling positive MOCK service");
             }
             if ( currentAlertMockEnv.equals("WRONG") || currentAlertMockEnv.equals("wrong") ) {
                 url = new URI(URL_CURRENT_ALERT_MOCK_WRONG);
-                log.info("Calling negative MOCK service with wrong JSON structure");
+                log.info("Current Alert: Calling negative MOCK service with wrong JSON structure");
             }
             if ( currentAlertMockEnv.equals("BAD") || currentAlertMockEnv.equals("bad") ) {
                 url = new URI(URL_CURRENT_ALERT_MOCK_BAD_JSON);
-                log.info("Calling negative MOCK service with bad JSON");
+                log.info("Current Alert: Calling negative MOCK service with bad JSON");
             }
         }
 
@@ -139,7 +139,7 @@ public class OrefAlertsService {
         if (null != historyMockEnv) {
             if (historyMockEnv.equals("TRUE") || historyMockEnv.equals("true")) {
                 url = new URI(URL_HISTORY_MOCK);
-                log.info("Calling positive MOCK service");
+                log.info("History: Calling positive MOCK service");
             }
         }
 
