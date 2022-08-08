@@ -33,6 +33,10 @@ services:
 ```
 
 ### Optional environment variables
+#### Loger level
+```yaml
+LOGGING_LEVEL_COM_DMATIK_OREFALERTS_SERVICE: "INFO"
+```
 #### To run in Test Mode
 ```yaml
 CURRENT_ALERT_TEST_MODE: "TRUE"
