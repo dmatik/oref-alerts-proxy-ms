@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -45,8 +46,32 @@ public class OrefAlertsService {
 
     public CurrentAlertResponse getCurrentAlert() throws URISyntaxException {
 
-        CurrentAlertResponse response =
-                new CurrentAlertResponse(false, new CurrentAlert("","","", null,""));
+        CurrentAlertResponse response;
+
+        // Check ENV VAR for Test Mode
+        String currentAlertTestModeEnv = System.getenv("CURRENT_ALERT_TEST_MODE");
+        if ( null != currentAlertTestModeEnv &&
+                ( currentAlertTestModeEnv.equals("TRUE") || currentAlertTestModeEnv.equals("true") ) ) {
+
+            // Test Mode data object
+            String currentAlertTestModeLocationEnv = System.getenv("CURRENT_ALERT_TEST_MODE_LOC");
+            String[] data = new String[1];
+            data[0] = Objects.requireNonNullElse(currentAlertTestModeLocationEnv, "");
+
+            // Test Mode response object
+            response = new CurrentAlertResponse(true,
+                    new CurrentAlert("133043790410000000",
+                            "1",
+                            "ירי רקטות וטילים",
+                            data,
+                            "היכנסו למרחב המוגן ושהו בו 10 דקות"));
+
+            log.info("Current Alert: Running in Test Mode");
+            log.info(response.toString());
+            return response;
+        }
+
+        response = new CurrentAlertResponse(false, new CurrentAlert("","","", null,""));
 
         URI url = new URI(URL_CURRENT_ALERT);
 
