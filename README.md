@@ -32,6 +32,16 @@ services:
             TZ: "Asia/Jerusalem"
 ```
 
+### Optional environment variables
+#### To run in Test Mode
+```yaml
+CURRENT_ALERT_TEST_MODE: "TRUE"
+CURRENT_ALERT_TEST_MODE_LOC: "אשדוד"
+
+HISTORY_TEST_MODE: "TRUE"
+```
+
+
 ### JSON Response Examples
 #### Example for /current endpoint
 ```json
