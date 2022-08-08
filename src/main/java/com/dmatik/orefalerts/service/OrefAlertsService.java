@@ -152,7 +152,28 @@ public class OrefAlertsService {
 
     public HistoryResponse getHistory() throws URISyntaxException {
 
-        HistoryResponse response = new HistoryResponse();
+        HistoryResponse response;
+
+        // Check ENV VAR for Test Mode
+        String historyTestModeEnv = System.getenv("HISTORY_TEST_MODE");
+        if ( null != historyTestModeEnv &&
+                ( historyTestModeEnv.equals("TRUE") || historyTestModeEnv.equals("true") ) ) {
+
+            // Test mode history object
+            HistoryItem[] history = new HistoryItem[3];
+            history[0] = new HistoryItem("תל אביב", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+            history[1] = new HistoryItem("ניו יורק", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+            history[2] = new HistoryItem("מוסקוה", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+
+            // Test mode response object
+            response = new HistoryResponse(history);
+
+            log.info("History: Running in Test Mode");
+            log.info(response.toString());
+            return response;
+        }
+
+        response = new HistoryResponse();
 
         // Empty history object
         response.setHistory(new HistoryItem[0]);
