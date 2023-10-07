@@ -13,16 +13,7 @@ public final class SSLUtil{
     static {
         //for localhost testing only
         javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
-                new javax.net.ssl.HostnameVerifier(){
-
-                    public boolean verify(String hostname,
-                                          javax.net.ssl.SSLSession sslSession) {
-                        if (hostname.equals("localhost")) {
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+                (hostname, sslSession) -> hostname.equals("localhost"));
     }
 
     private static final TrustManager[] UNQUESTIONING_TRUST_MANAGER = new TrustManager[]{
@@ -40,11 +31,6 @@ public final class SSLUtil{
         final SSLContext sc = SSLContext.getInstance("SSL");
         sc.init( null, UNQUESTIONING_TRUST_MANAGER, null );
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-    }
-
-    public static void turnOnSslChecking() throws KeyManagementException, NoSuchAlgorithmException {
-        // Return it to the initial state (discovered by reflection, now hardcoded)
-        SSLContext.getInstance("SSL").init( null, null, null );
     }
 
     private SSLUtil(){
