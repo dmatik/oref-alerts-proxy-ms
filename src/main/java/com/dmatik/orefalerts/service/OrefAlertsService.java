@@ -1,5 +1,6 @@
 package com.dmatik.orefalerts.service;
 
+import com.dmatik.orefalerts.SSLUtil;
 import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import com.dmatik.orefalerts.entity.HistoryItem;
@@ -117,6 +118,7 @@ public class OrefAlertsService {
         CurrentAlert current;
 
         try {
+            SSLUtil.turnOffSslChecking();
             orefResponse = restTemplate.exchange(url, HttpMethod.GET, entity, CurrentAlert.class);
             current = orefResponse.getBody();
         } catch (RestClientException e) {
@@ -205,6 +207,7 @@ public class OrefAlertsService {
         // Pikud HaOref call
         ResponseEntity<HistoryItem[]> orefResponse;
         try {
+            SSLUtil.turnOffSslChecking();
             orefResponse = restTemplateHistory.exchange(url, HttpMethod.GET, entity, HistoryItem[].class);
         } catch (RestClientException e) {
             log.debug(e.getMessage());
