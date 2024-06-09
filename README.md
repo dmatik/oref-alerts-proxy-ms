@@ -1,6 +1,6 @@
 # oref-alerts-proxy-ms
 
-[![build]][3] [![maintenance]][2] [![last-commit]][2] <br>
+[![build]][3] [![last-commit]][2] <br>
 [![docker-version]][1] [![docker-pulls]][1] [![image-size]][1] <br>
 [![quality-gate]][4] [![coverage]][4] [![bugs]][4] [![vulnerabilities]][4]
 
