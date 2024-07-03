@@ -33,7 +33,8 @@ public class OrefAlertsService {
 
     static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
     static final String URL_CURRENT_ALERT_MOCK = "http://10.0.0.30:48080/oref_alerts/alert";
-    static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+    //static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+    static final String URL_HISTORY = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
     static final String URL_HISTORY_MOCK = "http://10.0.0.30:48080/oref_alerts/history";
     static final String URL_CURRENT_ALERT_MOCK_WRONG = "http://10.0.0.30:48080/gen_json";
     static final String URL_CURRENT_ALERT_MOCK_BAD_JSON = "http://10.0.0.30:48080/bad_json";
@@ -163,9 +164,9 @@ public class OrefAlertsService {
 
             // Test mode history object
             HistoryItem[] history = new HistoryItem[3];
-            history[0] = new HistoryItem("תל אביב", "17.05.2021", "13:31", "2021-05-17T13:32:00");
-            history[1] = new HistoryItem("ניו יורק", "17.05.2021", "13:31", "2021-05-17T13:32:00");
-            history[2] = new HistoryItem("מוסקוה", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+            history[0] = new HistoryItem("2024-07-03 17:26:48", "ירי רקטות וטילים", "תל אביב", 1);
+            history[1] = new HistoryItem("2024-07-03 17:26:48", "ירי רקטות וטילים", "ניו יורק", 1);
+            history[2] = new HistoryItem("2024-07-03 17:26:48", "ירי רקטות וטילים", "מוסקוה", 1);
 
             // Test mode response object
             response = new HistoryResponse(history);

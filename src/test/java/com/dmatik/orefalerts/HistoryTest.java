@@ -56,13 +56,13 @@ public class HistoryTest {
     public void history_successfulFlow() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
         String mockPath = "src/test/mocks/history.json";
 
         // Create expected object
         HistoryItem[] history = new HistoryItem[2];
-        history[0] = new HistoryItem("בטחה", "17.05.2021", "13:31", "2021-05-17T13:32:00");
-        history[1] = new HistoryItem("גילת", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+        history[0] = new HistoryItem("2024-07-03 17:26:52", "ירי רקטות וטילים", "בטחה", 1);
+        history[1] = new HistoryItem("2024-07-03 17:26:52", "ירי רקטות וטילים", "גילת", 1);
         HistoryResponse historyResponseExpected = new HistoryResponse(history);
 
         // Read Mock from file
@@ -87,7 +87,7 @@ public class HistoryTest {
     public void history_emptyResponse() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
@@ -110,7 +110,7 @@ public class HistoryTest {
     public void  history_httpNotFound() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
@@ -130,7 +130,7 @@ public class HistoryTest {
     public void  history_httpServerError() throws URISyntaxException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
@@ -150,13 +150,13 @@ public class HistoryTest {
     public void history_controllerSuccessfulFlow() throws URISyntaxException, IOException {
 
         // External REST URL to be mocked
-        String url = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
+        String url = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
         String mockPath = "src/test/mocks/history.json";
 
         // Create expected object
         HistoryItem[] history = new HistoryItem[2];
-        history[0] = new HistoryItem("בטחה", "17.05.2021", "13:31", "2021-05-17T13:32:00");
-        history[1] = new HistoryItem("גילת", "17.05.2021", "13:31", "2021-05-17T13:32:00");
+        history[0] = new HistoryItem("2024-07-03 17:26:52", "ירי רקטות וטילים", "בטחה", 1);
+        history[1] = new HistoryItem("2024-07-03 17:26:52", "ירי רקטות וטילים", "גילת", 1);
         HistoryResponse historyResponseExpected = new HistoryResponse(history);
 
         // Read Mock from file

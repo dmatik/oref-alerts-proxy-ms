@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import java.util.Date;
 
 @Entity
 @Data
@@ -12,8 +13,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class HistoryItem {
 
+    private String alertDate;
+    private String title;
     private String data;
-    private String date;
-    private String time;
-    private String datetime;
+    private int category;
 }
