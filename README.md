@@ -67,18 +67,18 @@ HISTORY_TEST_MODE: "TRUE"
 ```json
 {
     "history": [
-		{
-			"alertDate": "2024-07-03 18:45:36",
-			"title": "ירי רקטות וטילים",
-			"data": "זרעית",
-			"category": 1
-		},
-		{
-			"alertDate": "2024-07-03 18:38:03",
-			"title": "ירי רקטות וטילים",
-			"data": "כפר סאלד",
-			"category": 1
-		}
+	{
+		"alertDate": "2024-07-03 18:45:36",
+		"title": "ירי רקטות וטילים",
+		"data": "זרעית",
+		"category": 1
+	},
+	{
+		"alertDate": "2024-07-03 18:38:03",
+		"title": "ירי רקטות וטילים",
+		"data": "כפר סאלד",
+		"category": 1
+	}
     ]
 }
 ```
