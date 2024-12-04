@@ -218,9 +218,8 @@ public class OrefAlertsService {
             return response;
         }
 
-        response.setHistory( orefResponse.getBody() );
-
-        if( null != response.getHistory() && response.getHistory().length > 0) {
+        if( null != orefResponse.getBody() && orefResponse.getBody().length > 0) {
+            response.setHistory( orefResponse.getBody() );
             log.info(response.toString());
         } else {
             log.debug(response.toString());

@@ -91,6 +91,7 @@ public class HistoryTest {
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
+        historyResponseExpected.setHistory(new HistoryItem[0]);
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
@@ -114,6 +115,7 @@ public class HistoryTest {
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
+        historyResponseExpected.setHistory(new HistoryItem[0]);
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
@@ -134,6 +136,7 @@ public class HistoryTest {
 
         // Create expected object
         HistoryResponse historyResponseExpected = new HistoryResponse();
+        historyResponseExpected.setHistory(new HistoryItem[0]);
 
         this.mockServer
                 .expect(ExpectedCount.once(), requestTo(url))
