@@ -145,8 +145,6 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         @Override
         public InputStream getBody() throws IOException {
-            //String emptyJson = "[]";
-            //return new ByteArrayInputStream(emptyJson.getBytes());
             return null;
         }
 
