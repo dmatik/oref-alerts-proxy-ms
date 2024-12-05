@@ -1,6 +1,7 @@
 package com.dmatik.orefalerts.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +34,7 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         InputStream responseBody = response.getBody();
 
-        JSONObject jsonObject;
+        JSONArray jsonObject;
 
         // Convert InputStream to String
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -53,7 +54,21 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         if (i > -1) {
             responseBodyStringClean = responseBodyStringClean.substring(i);
-            response = new HistoryHttpRequestInterceptor.GoodHistoryBufferedClientHttpResponse(response, responseBodyStringClean);
+
+            try {
+                // Parse to JSON Array
+                jsonObject = new JSONArray(responseBodyStringClean);
+                log.info("History JSON: " + jsonObject);
+                response = new HistoryHttpRequestInterceptor.GoodHistoryBufferedClientHttpResponse(response, responseBodyStringClean);
+
+            } catch (JSONException e) {
+                // Response could not be parsed as JSON.
+                log.error("History Stream: " + responseBodyString);
+                log.error("Could not parse Current Alert as JSON. Setting to empty response.");
+                // Setting to empty response
+                response = new HistoryHttpRequestInterceptor.EmptyHistoryBufferedClientHttpResponse(response);
+            }
+
         } else {
             // Empty response.
             log.debug("History Stream: " + responseBodyString);
