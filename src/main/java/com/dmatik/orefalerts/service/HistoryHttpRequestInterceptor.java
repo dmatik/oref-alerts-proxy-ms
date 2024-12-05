@@ -58,12 +58,12 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
             try {
                 // Parse to JSON Array
                 jsonObject = new JSONArray(responseBodyStringClean);
-                log.info("History JSON: " + jsonObject);
+                log.info("History JSON: {}", jsonObject);
                 response = new HistoryHttpRequestInterceptor.GoodHistoryBufferedClientHttpResponse(response, responseBodyStringClean);
 
             } catch (JSONException e) {
                 // Response could not be parsed as JSON.
-                log.error("History Stream: " + responseBodyString);
+                log.error("History Stream: {}", responseBodyString);
                 log.error("Could not parse Current Alert as JSON. Setting to empty response.");
                 // Setting to empty response
                 response = new HistoryHttpRequestInterceptor.EmptyHistoryBufferedClientHttpResponse(response);
@@ -71,7 +71,7 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         } else {
             // Empty response.
-            log.debug("History Stream: " + responseBodyString);
+            log.debug("History Stream: {}", responseBodyString);
             log.debug("History is not valid JSON. Setting to empty response.");
             // Setting to empty response
             response = new HistoryHttpRequestInterceptor.EmptyHistoryBufferedClientHttpResponse(response);

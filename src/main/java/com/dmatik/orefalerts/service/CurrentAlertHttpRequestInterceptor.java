@@ -55,12 +55,12 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
             try {
                 // Parse to JSON
                 jsonObject = new JSONObject(responseBodyStringClean);
-                log.info("Current Alert JSON: " + jsonObject);
+                log.info("Current Alert JSON: {}", jsonObject);
                 response = new GoodCurrentBufferedClientHttpResponse(response, responseBodyStringClean);
 
             } catch (JSONException e) {
                 // Response could not be parsed as JSON.
-                log.error("Current Alert Stream: " + responseBodyString);
+                log.error("Current Alert Stream: {}", responseBodyString);
                 log.error("Could not parse Current Alert as JSON. Setting to empty response.");
                 // Setting to empty response
                 response = new EmptyCurrentBufferedClientHttpResponse(response);
@@ -68,7 +68,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
 
         } else {
             // Empty response.
-            log.debug("Current Alert Stream: " + responseBodyString);
+            log.debug("Current Alert Stream: {}", responseBodyString);
             log.debug("Current Alert is not valid JSON. Setting to empty response.");
             // Setting to empty response
             response = new EmptyCurrentBufferedClientHttpResponse(response);
