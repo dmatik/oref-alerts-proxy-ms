@@ -30,6 +30,11 @@ services:
           - 49000:9001
         environment:
             TZ: "Asia/Jerusalem"
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100m"
+                max-file: "3"
 ```
 
 ### Optional environment variables
