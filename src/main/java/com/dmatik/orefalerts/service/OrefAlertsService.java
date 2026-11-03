@@ -31,7 +31,7 @@ public class OrefAlertsService {
     @Autowired
     private RestTemplate restTemplateHistory;
 
-    static final String URL_CURRENT_ALERT = "https://www.oref.org.il/WarningMessages/alert/alerts.json";
+    static final String URL_CURRENT_ALERT = "https://www.oref.org.il/warningMessages/alert/Alerts.json";
     static final String URL_CURRENT_ALERT_MOCK = "http://10.0.0.30:48080/oref_alerts/alert";
     //static final String URL_HISTORY = "https://www.oref.org.il//Shared/Ajax/GetAlarmsHistory.aspx?lang=he&mode=1";
     static final String URL_HISTORY = "https://www.oref.org.il/warningMessages/alert/History/AlertsHistory.json";
@@ -40,9 +40,9 @@ public class OrefAlertsService {
     static final String URL_CURRENT_ALERT_MOCK_BAD_JSON = "http://10.0.0.30:48080/bad_json";
 
     static final String HEADER_USER_AGENT_KEY = "User-Agent";
-    static final String HEADER_USER_AGENT_VALUE = "https://www.oref.org.il/";
-    static final String HEADER_REFERER_KEY = "Referer";
-    static final String HEADER_REFERER_VALUE = "https://www.oref.org.il//12481-he/Pakar.aspx";
+    static final String HEADER_USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36";
+    static final String HEADER_REFERER_KEY = "referer";
+    static final String HEADER_REFERER_VALUE = "https://www.oref.org.il/heb/alerts-history";
     static final String HEADER_X_REQUESTED_WITH_KEY = "X-Requested-With";
     static final String HEADER_X_REQUESTED_WITH_VALUE = "XMLHttpRequest";
 
