@@ -3,10 +3,9 @@ package com.dmatik.orefalerts.service;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -46,7 +45,7 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         // Remove wrong characters from response to be able to parse to JSON.
         String responseBodyStringClean =
-                responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
+                responseBodyString.replaceAll("[\\r\\n\\t\\u0001\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
 
         // Checking if there is "{" in the response.
@@ -93,13 +92,8 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -132,20 +126,14 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
     private static class EmptyHistoryBufferedClientHttpResponse implements ClientHttpResponse {
 
         private final ClientHttpResponse response;
-        private byte[] body;
 
         public EmptyHistoryBufferedClientHttpResponse(ClientHttpResponse response) {
             this.response = response;
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -183,13 +171,8 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -204,7 +187,7 @@ public class HistoryHttpRequestInterceptor implements ClientHttpRequestIntercept
 
         @Override
         public InputStream getBody() throws IOException {
-            return new ByteArrayInputStream(this.body.getBytes());
+            return new ByteArrayInputStream(this.body.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override

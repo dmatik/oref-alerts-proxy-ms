@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -44,7 +44,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
 
         // Remove wrong characters from response to be able to parse to JSON.
         String responseBodyStringClean =
-                responseBodyString.replaceAll("[\r\n\t\u0001\0\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
+                responseBodyString.replaceAll("[\\r\\n\\t\\u0001\\x00-\\x09\\x11\\x12\\x14-\\x1F\\x7F\\x0B\\x0C\\x0E-\\x1F\\u00a0]","");
 
         // Checking if there is "{" in the response.
         int i = responseBodyStringClean.indexOf("{");
@@ -91,13 +91,8 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -136,13 +131,8 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -158,7 +148,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         @Override
         public InputStream getBody() {
             String emptyJson = "{\"id\": \"\",\"cat\": \"\",\"title\": \"EMPTY_RESPONSE\",\"data\": null,\"desc\": \"\"}";
-            return new ByteArrayInputStream(emptyJson.getBytes());
+            return new ByteArrayInputStream(emptyJson.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override
@@ -182,13 +172,8 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
         }
 
         @Override
-        public HttpStatus getStatusCode() throws IOException {
+        public HttpStatusCode getStatusCode() throws IOException {
             return response.getStatusCode();
-        }
-
-        @Override
-        public int getRawStatusCode() throws IOException {
-            return response.getRawStatusCode();
         }
 
         @Override
@@ -203,7 +188,7 @@ public class CurrentAlertHttpRequestInterceptor implements ClientHttpRequestInte
 
         @Override
         public InputStream getBody() {
-            return new ByteArrayInputStream(this.body.getBytes());
+            return new ByteArrayInputStream(this.body.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override
