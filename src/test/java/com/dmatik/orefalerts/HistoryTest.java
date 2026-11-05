@@ -4,17 +4,15 @@ import com.dmatik.orefalerts.controller.OrefAlertsController;
 import com.dmatik.orefalerts.entity.HistoryItem;
 import com.dmatik.orefalerts.entity.HistoryResponse;
 import com.dmatik.orefalerts.service.OrefAlertsService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.util.ResourceUtils;
@@ -23,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -31,7 +30,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = SpringTestConfig.class)
 public class HistoryTest {
 
@@ -46,7 +44,7 @@ public class HistoryTest {
 
     private MockRestServiceServer mockServer;
 
-    @Before
+    @BeforeEach
     public void init() {
 
         mockServer = MockRestServiceServer.createServer(restTemplateHistory);
@@ -67,7 +65,7 @@ public class HistoryTest {
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
-        String historyMock = new String( Files.readAllBytes(path) );
+        String historyMock = Files.readString(path, StandardCharsets.UTF_8);
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
@@ -80,7 +78,7 @@ public class HistoryTest {
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assertions.assertEquals(historyResponseExpected, historyResponse);
     }
 
     @Test
@@ -104,7 +102,7 @@ public class HistoryTest {
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assertions.assertEquals(historyResponseExpected, historyResponse);
     }
 
     @Test
@@ -125,7 +123,7 @@ public class HistoryTest {
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assertions.assertEquals(historyResponseExpected, historyResponse);
     }
 
     @Test
@@ -146,7 +144,7 @@ public class HistoryTest {
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsService.getHistory();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assertions.assertEquals(historyResponseExpected, historyResponse);
     }
 
     @Test
@@ -164,7 +162,7 @@ public class HistoryTest {
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
-        String historyMock = new String( Files.readAllBytes(path) );
+        String historyMock = Files.readString(path, StandardCharsets.UTF_8);
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
@@ -177,6 +175,6 @@ public class HistoryTest {
         // Executing and asserting
         HistoryResponse historyResponse = orefAlertsController.getHistory();
         mockServer.verify();
-        Assert.assertEquals(historyResponseExpected, historyResponse);
+        Assertions.assertEquals(historyResponseExpected, historyResponse);
     }
 }

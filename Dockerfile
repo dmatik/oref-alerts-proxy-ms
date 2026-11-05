@@ -1,4 +1,4 @@
-FROM openjdk:11.0.1-jdk-slim-sid
+FROM eclipse-temurin:25-jre-noble
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 EXPOSE 9001

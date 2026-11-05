@@ -4,17 +4,15 @@ import com.dmatik.orefalerts.controller.OrefAlertsController;
 import com.dmatik.orefalerts.entity.CurrentAlert;
 import com.dmatik.orefalerts.entity.CurrentAlertResponse;
 import com.dmatik.orefalerts.service.OrefAlertsService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.util.ResourceUtils;
@@ -23,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -31,7 +30,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = SpringTestConfig.class)
 public class CurrentAlertTest {
 
@@ -46,7 +44,7 @@ public class CurrentAlertTest {
 
     private MockRestServiceServer mockServer;
 
-    @Before
+    @BeforeEach
     public void init() {
 
         mockServer = MockRestServiceServer.createServer(restTemplate);
@@ -79,7 +77,7 @@ public class CurrentAlertTest {
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
-        String currMock = new String( Files.readAllBytes(path) );
+        String currMock = Files.readString(path, StandardCharsets.UTF_8);
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(url))
@@ -92,7 +90,7 @@ public class CurrentAlertTest {
         // Executing and asserting
         CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
-        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+        Assertions.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
@@ -126,7 +124,7 @@ public class CurrentAlertTest {
         // Executing and asserting
         CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         mockServer.verify();
-        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+        Assertions.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
@@ -157,7 +155,7 @@ public class CurrentAlertTest {
         // Executing and asserting
         CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         this.mockServer.verify();
-        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+        Assertions.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
@@ -188,7 +186,7 @@ public class CurrentAlertTest {
         // Executing and asserting
         CurrentAlertResponse currentAlertResponse = orefAlertsService.getCurrentAlert();
         //this.mockServer.verify();
-        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+        Assertions.assertEquals(currResponseExpected, currentAlertResponse);
     }
 
     @Test
@@ -218,7 +216,7 @@ public class CurrentAlertTest {
 
         // Read Mock from file
         Path path = ResourceUtils.getFile(mockPath).toPath();
-        String currMock = new String( Files.readAllBytes(path) );
+        String currMock = Files.readString(path, StandardCharsets.UTF_8);
 
         mockServer.expect(ExpectedCount.once(),
                 requestTo(new URI(url)))
@@ -231,6 +229,6 @@ public class CurrentAlertTest {
         // Executing and asserting
         CurrentAlertResponse currentAlertResponse = orefAlertsController.getCurrentAlert();
         //mockServer.verify();
-        Assert.assertEquals(currResponseExpected, currentAlertResponse);
+        Assertions.assertEquals(currResponseExpected, currentAlertResponse);
     }
 }
